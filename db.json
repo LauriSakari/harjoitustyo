@@ -1,0 +1,65 @@
+{
+  "userinfo": {
+    "id": 1,
+    "username": "Lauri",
+    "boulderFlashGrade": "6B",
+    "sportFlashGrade": "6B",
+    "climbedRoutes": [
+      {
+        "grade": "6A",
+        "boulder": 32,
+        "sport": 2
+      },
+      {
+        "grade": "6A+",
+        "boulder": 3,
+        "sport": 5
+      },
+      {
+        "grade": "6B",
+        "boulder": 6,
+        "sport": 4
+      },
+      {
+        "grade": "6B+",
+        "boulder": 0,
+        "sport": 8
+      },
+      {
+        "grade": "6C",
+        "boulder": 3,
+        "sport": 6
+      },
+      {
+        "grade": "6C+",
+        "boulder": 4,
+        "sport": 5
+      },
+      {
+        "grade": "7A",
+        "boulder": 2,
+        "sport": 0
+      },
+      {
+        "grade": "7A+",
+        "boulder": 0,
+        "sport": 0
+      },
+      {
+        "grade": "7B",
+        "boulder": 0,
+        "sport": 0
+      },
+      {
+        "grade": "7B+",
+        "boulder": 0,
+        "sport": 0
+      },
+      {
+        "grade": "7C",
+        "boulder": 0,
+        "sport": 0
+      }
+    ]
+  }
+}
