@@ -4,9 +4,8 @@
 const FlashForm = ({ handleChange, editFlash, text }) => {
     return (
     <form onSubmit={editFlash}>  
-    <b> Set a new boulder flash grade </b>  
+    <b> Set a new {text} flash grade </b>  
     <select onChange={handleChange} >
-    <option> Select grade </option>  
     <option> 6A </option>  
     <option> 6A+ </option>  
     <option> 6B </option>  
@@ -27,7 +26,7 @@ const FlashForm = ({ handleChange, editFlash, text }) => {
     <option> 8C+ </option>  
     <option> 9A </option>
   </select>  
-  <button type="submit">Save new {text} flash grade</button>
+  <button type="submit">Save new flash grade</button>
   </form>  
  )}
 export default FlashForm

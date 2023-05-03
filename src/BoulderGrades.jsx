@@ -1,7 +1,6 @@
 import { useState } from "react"
 
 const BoulderGrades = ({ userInfo }) => {
-    console.log('userinfo', userInfo )
 const [showPlus, setShowPlus] = useState(true)
 
 // Sorts the climbed routes and gives feedback, starting upwards from flashgrade
@@ -68,7 +67,7 @@ const plusIgnored = () => {
         } 
         )}
     </table>
-    {/* Button to toggle whether the plus grades are shown */}
+    {/* Button to toggle whether the plus grades are shown and shows feedback */}
     { showPlus ? sorting(userInfo.climbedRoutes) : sorting(plusIgnored()) }
     <button type="button" onClick={() => { console.log('clicked'), setShowPlus(!showPlus)}}> 
       {showPlus ? `Ignore "plus" grades` : `Include "plus" grades` }</button>
