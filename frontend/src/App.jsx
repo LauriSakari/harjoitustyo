@@ -2,61 +2,28 @@ import { useState, useEffect } from 'react'
 import BoulderGrades from './BoulderGrades'
 import FlashForm from './FlashForm'
 import userInfoService from './services/userInfo'
+import SignInForm from './SignInForm'
 
 
 const App = () => {
   const [userInfo, setUserInfo] = useState({ climbedRoutes: [] })
   const [newBoulderFlash, setNewBoulderFlash] = useState('')
   const [newSportFlash, setNewSportFlash] = useState('')
-  const [user, setUser] = useState({
-    id: 1,
-    username: "Lauri",
-    boulderFlashGrade: "6A",
-    sportFlashGrade: "6B",
-    climbedRoutes: [
-      {
-        grade: "6A",
-        boulder: 32,
-        sport: 2
-      },
-      {
-        grade: "6A+",
-        boulder: 3,
-        sport: 5
-      },
-      {
-        grade: "6B",
-        boulder: 6,
-        sport: 4
-      },
-      {
-        grade: "6B+",
-        boulder: 0,
-        sport: 8
-      },
-      {
-        grade: "6C",
-        boulder: 3,
-        sport: 6
-      },
-      {
-        grade: "6C+",
-        boulder: 4,
-        sport: 5
-      },
-    ]
-  })
+  const [user, setUser] = useState('')
 
+console.log('user ', user)
 
   useEffect(() => {
     console.log('user ', user)
-    console.log('id ', user.id)
+    console.log('EFFECT id ', user.id)
+    if (user.id) {
     userInfoService
     .getUserInfo(user.id)
     .then(response => {
       setUserInfo(response.data)
     })
-  }, [])
+    }
+  }, [user])
 
   const editBoulderFlash = (event) => {
     event.preventDefault()
@@ -91,6 +58,7 @@ const App = () => {
   <h1>Climbing move bank</h1>
   {!user && <>
   <div> Welcome! Please sign in or create an account </div>
+  <SignInForm setUser={setUser}/>
   </>
   }
   {user && 
