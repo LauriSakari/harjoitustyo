@@ -1,38 +1,75 @@
-import { useState } from "react"
-import login from "./services/login"
 
-const SignInForm = ({ setUser }) => {
+import { useFormik } from 'formik'
+import signIn from './services/signIn'
+import * as yup from 'yup'
 
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+const signInSchema = yup.object().shape({
+    name: yup.string().required('Name is required'),
+    username: yup.string().required('Username required'),
+    password: yup.string().required('Password required'),
+})
 
-  const handleUsernameChange = (event) => {
-    setUsername(event.target.value)
-  }
-  
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value)
-  }
+const SignInForm = () => {
 
-  const handleLogin = async (event) => {
-    event.preventDefault()
-    const result = await login({ username, password })
-    console.log('result ', result)
-    setUser(result.data)
-  }
+  const formik = useFormik({
+    initialValues: {
+      name: '',
+      username: '',
+      password: ''
+    },
+    validationSchema: signInSchema,
+    onSubmit: async (values, { resetForm }) => {
+      console.log('values', values)
+      const newUser = await signIn(values)
+      console.log('ONSUBMIT new user', newUser)
+      if (newUser) {
+        resetForm()
+      }
+    },
+    errors: null,
+  })
 
-return (
-  <form onSubmit={handleLogin}>
-    <div> username
-      <input type='text' value={username} onChange={handleUsernameChange}/>
-    </div>
-    <div> password
-      <input type='text' value={password} onChange={handlePasswordChange}/>
-    </div> 
-    <button type='submit'>Submit</button>
-  </form>
-  
-)
+  return (
+    <>
+      <div>Please sign in</div>
+      <form onSubmit={formik.handleSubmit}>
+        <label>Name</label>
+        <input 
+          id="name"
+          name="name"
+          type="name"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.name}
+          />
+          {formik.touched.name && formik.errors.name ? (<div style={{color: 'red'}}>{formik.errors.name}</div>) : null}
+          
+        <label>Username</label>
+        <input 
+          id="username"
+          name="username"
+          type="username"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.username}
+          />
+          {formik.touched.username && formik.errors.username ? (<div style={{color: 'red'}}>{formik.errors.username}</div>) : null}
+
+        <label>Password</label>
+        <input 
+          id="password"
+          name="password"
+          type="password"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.password}
+          />
+        {formik.touched.password && formik.errors.password ? (<div style={{color: 'red'}}>{formik.errors.password}</div>) : null}
+      <button type="submit">Submit</button>
+      </form>
+    </>
+    )
+
 }
 
 export default SignInForm

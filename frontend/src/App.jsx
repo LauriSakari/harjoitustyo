@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import BoulderGrades from './BoulderGrades'
 import FlashForm from './FlashForm'
 import userInfoService from './services/userInfo'
+import LogInForm from './LogInForm'
 import SignInForm from './SignInForm'
 
 
@@ -58,7 +59,8 @@ console.log('user ', user)
   <h1>Climbing move bank</h1>
   {!user && <>
   <div> Welcome! Please sign in or create an account </div>
-  <SignInForm setUser={setUser}/>
+  <LogInForm setUser={setUser}/>
+  <SignInForm/>
   </>
   }
   {user && 
