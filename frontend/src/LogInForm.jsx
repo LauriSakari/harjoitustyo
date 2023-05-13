@@ -1,5 +1,5 @@
-import { useState } from "react"
-import login from "./services/login"
+import { useState } from 'react'
+import login from './services/login'
 
 const LogInForm = ({ setUser }) => {
 
@@ -9,7 +9,7 @@ const LogInForm = ({ setUser }) => {
   const handleUsernameChange = (event) => {
     setUsername(event.target.value)
   }
-  
+
   const handlePasswordChange = (event) => {
     setPassword(event.target.value)
   }
@@ -17,22 +17,26 @@ const LogInForm = ({ setUser }) => {
   const handleLogin = async (event) => {
     event.preventDefault()
     const result = await login({ username, password })
-    console.log('result ', result)
-    setUser(result.data)
+    const user = result.data
+    setUser(user)
+
+    window.localStorage.setItem(
+      'loggedMoveBankUser', JSON.stringify(user)
+    )
   }
 
-return (
-  <form onSubmit={handleLogin}>
-    <div> username
-      <input type='text' value={username} onChange={handleUsernameChange}/>
-    </div>
-    <div> password
-      <input type='text' value={password} onChange={handlePasswordChange}/>
-    </div> 
-    <button type='submit'>Submit</button>
-  </form>
-  
-)
+  return (
+    <form onSubmit={handleLogin}>
+      <div> username
+        <input type='text' value={username} onChange={handleUsernameChange}/>
+      </div>
+      <div> password
+        <input type='password' value={password} onChange={handlePasswordChange}/>
+      </div>
+      <button type='submit'>Submit</button>
+    </form>
+
+  )
 }
 
 export default LogInForm

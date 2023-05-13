@@ -4,13 +4,14 @@ import signIn from './services/signIn'
 import * as yup from 'yup'
 
 const signInSchema = yup.object().shape({
-    name: yup.string().required('Name is required'),
-    username: yup.string().required('Username required'),
-    password: yup.string().required('Password required'),
+  name: yup.string().required('Name is required'),
+  username: yup.string().required('Username required'),
+  password: yup.string().required('Password required'),
 })
 
-const SignInForm = () => {
+const SignInForm = ({ setUser }) => {
 
+  console.log('setUser', setUser)
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -18,12 +19,15 @@ const SignInForm = () => {
       password: ''
     },
     validationSchema: signInSchema,
-    onSubmit: async (values, { resetForm }) => {
-      console.log('values', values)
-      const newUser = await signIn(values)
-      console.log('ONSUBMIT new user', newUser)
+    onSubmit: async (values) => {
+      const response = await signIn(values)
+      const newUser = response.data
       if (newUser) {
-        resetForm()
+        console.log('newUser', newUser)
+        setUser(newUser)
+        window.localStorage.setItem(
+          'loggedMoveBankUser', JSON.stringify(newUser)
+        )
       }
     },
     errors: null,
@@ -34,41 +38,41 @@ const SignInForm = () => {
       <div>Please sign in</div>
       <form onSubmit={formik.handleSubmit}>
         <label>Name</label>
-        <input 
+        <input
           id="name"
           name="name"
           type="name"
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.name}
-          />
-          {formik.touched.name && formik.errors.name ? (<div style={{color: 'red'}}>{formik.errors.name}</div>) : null}
-          
+        />
+        {formik.touched.name && formik.errors.name ? (<div style={{ color: 'red' }}>{formik.errors.name}</div>) : null}
+
         <label>Username</label>
-        <input 
+        <input
           id="username"
           name="username"
           type="username"
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.username}
-          />
-          {formik.touched.username && formik.errors.username ? (<div style={{color: 'red'}}>{formik.errors.username}</div>) : null}
+        />
+        {formik.touched.username && formik.errors.username ? (<div style={{ color: 'red' }}>{formik.errors.username}</div>) : null}
 
         <label>Password</label>
-        <input 
+        <input
           id="password"
           name="password"
           type="password"
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.password}
-          />
-        {formik.touched.password && formik.errors.password ? (<div style={{color: 'red'}}>{formik.errors.password}</div>) : null}
-      <button type="submit">Submit</button>
+        />
+        {formik.touched.password && formik.errors.password ? (<div style={{ color: 'red' }}>{formik.errors.password}</div>) : null}
+        <button type="submit">Submit</button>
       </form>
     </>
-    )
+  )
 
 }
 

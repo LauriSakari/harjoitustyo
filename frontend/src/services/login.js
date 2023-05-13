@@ -6,9 +6,7 @@ const login = async ({ username, password }) => {
   if (!username && !password) {
     return null
   }
-  console.log('HALOO LOGIN', username, password)
   const result = await axios.post(baseUrl, { username, password })
-  console.log('result ', result)
   return result
 }
 
