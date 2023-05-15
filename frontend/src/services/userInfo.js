@@ -5,8 +5,16 @@ const getUserInfo = async (id) => {
   return await axios.get(`${baseUrl}/${id}`)
 }
 
-const editFlashGrade = (changedUserInfo) => {
+const editFlashGrade = async (changedUserInfo) => {
   const id = changedUserInfo.id
-  return axios.put(`${baseUrl}/${id}`, changedUserInfo)
+  return await axios.put(`${baseUrl}/${id}`, changedUserInfo)
 }
-export default { getUserInfo, editFlashGrade }
+
+const editClimbedRoutes = async (changedUserInfo) => {
+  console.log('changedUserInfo', changedUserInfo)
+  const id = changedUserInfo.id
+  const result = await axios.put(`${baseUrl}/${id}`, changedUserInfo)
+  return result.data
+}
+
+export default { getUserInfo, editFlashGrade, editClimbedRoutes }

@@ -85,7 +85,7 @@ const App = () => {
     <h3>Your sport flash grade is {userInfo.sportFlashGrade}</h3>
     <FlashForm handleChange={handleSportFlashChange} editFlash={editSportFlash} text={'sport'}/>
     <BoulderGrades userInfo={userInfo}/>
-    <AddClimbsForm userInfo={userInfo}/>
+    <AddClimbsForm userInfo={userInfo} setUserInfo={setUserInfo}/>
   </>
       }
     </>

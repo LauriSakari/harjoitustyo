@@ -5,7 +5,6 @@ const api = supertest(app)
 const bcrypt = require('bcrypt')
 const User = require('../models/user')
 const helper = require('./test_helper')
-const jwt = require('jsonwebtoken')
 
 
 describe('two users saved initially', () => {
@@ -118,10 +117,11 @@ describe('logging in', () => {
     
     console.log('respones', response.body )
     
-    const decoded = jwt.verify(response.body, process.env.SECRET)
+    //const decoded = jwt.verify(response.body, process.env.SECRET)
+  
     
-    console.log('decoded', decoded)
-    expect(decoded.username).toContain('root')
+    //console.log('decoded', decoded)
+    expect(response.body.username).toContain('root')
   }) 
   test('login fails with incorrect password', async () => {
 

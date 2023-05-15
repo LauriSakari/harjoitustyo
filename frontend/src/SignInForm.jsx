@@ -11,7 +11,6 @@ const signInSchema = yup.object().shape({
 
 const SignInForm = ({ setUser }) => {
 
-  console.log('setUser', setUser)
   const formik = useFormik({
     initialValues: {
       name: '',
