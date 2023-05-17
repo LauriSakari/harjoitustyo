@@ -5,6 +5,7 @@ import userInfoService from './services/userInfo'
 import LogInForm from './LogInForm'
 import SignInForm from './SignInForm'
 import AddClimbsForm from './AddClimbsForm'
+import SportGrades from './SportGrades'
 
 
 const App = () => {
@@ -86,6 +87,7 @@ const App = () => {
     <FlashForm handleChange={handleSportFlashChange} editFlash={editSportFlash} text={'sport'}/>
     <BoulderGrades userInfo={userInfo}/>
     <AddClimbsForm userInfo={userInfo} setUserInfo={setUserInfo}/>
+    <SportGrades/>
   </>
       }
     </>

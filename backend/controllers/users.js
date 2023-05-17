@@ -41,7 +41,7 @@ usersRouter.post('/', async (req, res) => {
     const saltRounds = 10
     const passwordHash = await bcrypt.hash(password, saltRounds)
   
-    const user = new User({ password, ...body, passwordHash })
+    const user = new User({ password, ...body, passwordHash, })
     console.log('user', user)
     
     const savedUser = await user.save()
@@ -61,10 +61,7 @@ usersRouter.post('/', async (req, res) => {
 usersRouter.put('/:id', async (req, res) => {
 
   try {
-    console.log('PUT TOIMII')
     const { id, ...user } = req.body
-    console.log('id', id)
-    console.log('newuser ', user)
   
     const updatedUser = await User.findByIdAndUpdate(id, user, { new: true })
     console.log('updated', updatedUser)

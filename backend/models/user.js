@@ -11,8 +11,13 @@ const userSchema = new mongoose.Schema({
   boulderFlashGrade: String,
   sportFlashGrade: String,
   passwordHash: String,
-  climbedRoutes: Array
+  climbedRoutes : [{
+    grade : String,
+    boulder : Number,
+    sport: Number
+  }]
 })
+//
 
 userSchema.set('toJSON', {
   transform: (document, returnedObject) => {

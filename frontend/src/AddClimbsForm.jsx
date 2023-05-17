@@ -3,17 +3,39 @@ import userService from './services/userInfo'
 
 const findGrade = (values, userInfo) => {
   const { grade, style, routesClimbed } = values
-
+  let found = false
   const editedUserInfo = userInfo.climbedRoutes.map(obj => {
 
     if (obj.grade === grade) {
       console.log('g.grade ', obj.grade, 'grade ', grade)
       console.log('g.grade', obj.grade[style])
       console.log('g[style]', obj[style])
+      if (!obj[style]) {
+        obj[style] = 0
+      }
       obj[style] += routesClimbed
+      found = true
     }
     return obj
   })
+  console.log('editedUserInfo' , editedUserInfo)
+
+  if (editedUserInfo.length === 0) {
+    const newUserInfo = (style === 'boulder') ?
+      { ...userInfo, climbedRoutes: { grade: grade, boulder: routesClimbed }  } :
+      { ...userInfo, climbedRoutes: { grade: grade, sport: routesClimbed } }
+    return newUserInfo
+  }
+  if (!found) {
+    console.log('not foud!')
+    const editedClimbs = userInfo.climbedRoutes.concat(style === 'boulder' ?
+      { grade: grade, boulder: routesClimbed } :
+      { grade: grade, sport: routesClimbed })
+    console.log('editedUserinfo', editedClimbs)
+    const newUserInfo = { ...userInfo, climbedRoutes: editedClimbs }
+    console.log('newUserInfo', newUserInfo)
+    return newUserInfo
+  }
   const newUserInfo = { ...userInfo, climbedRoutes: editedUserInfo }
   return newUserInfo
 }
@@ -27,8 +49,6 @@ const AddClimbsForm = ({ userInfo, setUserInfo }) => {
       routesClimbed: ''
     },
     onSubmit: async values => {
-      console.log('values ', values)
-      console.log('USERINFO! ', userInfo)
       const updatedUserinfo = findGrade(values, userInfo)
       console.log('updatedUserinfo', updatedUserinfo)
       const result = await userService.editClimbedRoutes(updatedUserinfo)

@@ -3,22 +3,28 @@ import { useState } from 'react'
 const BoulderGrades = ({ userInfo }) => {
   const [showPlus, setShowPlus] = useState(true)
 
+  if (!userInfo.climbedRoutes) return <div>Add some climbs</div>
+
   // Sorts the climbed routes and gives feedback, starting upwards from flashgrade
-  const sorting = (props) => {
+  const sorting = () => {
+    if (!userInfo.climbedRoutes) return <div>No sends yet</div>
+
+    const sortedByGrade = userInfo.climbedRoutes.sort((a, b) => (a.grade > b.grade) ? 1 : -1)
+
     return (
-      props.map((route, index) => {
-        if (props[index + 1] && route.grade >= userInfo.boulderFlashGrade && props[index + 1].boulder > 0) {
-          const comparison = route.boulder - (props[index + 1].boulder * 3)
+      sortedByGrade.map((route, index) => {
+        if (sortedByGrade[index + 1] && route.grade >= userInfo.boulderFlashGrade && sortedByGrade[index + 1].boulder > 0) {
+          const comparison = route.boulder - (sortedByGrade[index + 1].boulder * 3)
           if (comparison < -3) {
-            return <p key={route.grade}>You can climb { comparison * -1 + 3 } routes of grade { route.grade } to balance your move bank and move on to work on your next { props[index + 1].grade}</p>
+            return <p key={route.grade}>You can climb { comparison * -1 + 3 } routes of grade { route.grade } to balance your move bank and move on to work on your next { sortedByGrade[index + 1].grade}</p>
           }
           if (comparison > 3) {
-            return <p key={route.grade}>You have plenty of { route.grade } grades in your move bank, try to climb some { props[index + 1].grade} grades</p>
+            return <p key={route.grade}>You have plenty of { route.grade } grades in your move bank, try to climb some { sortedByGrade[index + 1].grade} grades</p>
           }
           if (comparison >= 0) {
-            return <p key={route.grade}>You are all set to climb another { props[index + 1].grade}</p>
+            return <p key={route.grade}>You are all set to climb another { sortedByGrade[index + 1].grade}</p>
           }
-          return <p key={route.grade}>Your move bank is missing only { comparison * -1 } routes of { route.grade } grades to be ready for another { props[index + 1].grade}</p>
+          return <p key={route.grade}>Your move bank is missing only { comparison * -1 } routes of { route.grade } grades to be ready for another { sortedByGrade[index + 1].grade}</p>
         }
       })
     )
@@ -68,7 +74,7 @@ const BoulderGrades = ({ userInfo }) => {
         )}
       </table>
       {/* Button to toggle whether the plus grades are shown and shows feedback */}
-      { showPlus ? sorting(userInfo.climbedRoutes) : sorting(plusIgnored()) }
+      { showPlus ? sorting() : sorting(plusIgnored()) }
       <button type="button" onClick={() => { setShowPlus(!showPlus) }}>
         {showPlus ? 'Ignore "plus" grades' : 'Include "plus" grades' }</button>
     </>
