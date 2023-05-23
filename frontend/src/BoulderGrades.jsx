@@ -1,9 +1,20 @@
 import { useState } from 'react'
+import FlashForm from './FlashForm'
 
-const BoulderGrades = ({ userInfo }) => {
+const BoulderGrades = ({ editBoulderFlash, userInfo }) => {
   const [showPlus, setShowPlus] = useState(true)
+  const [newBoulderFlash, setNewBoulderFlash] = useState('')
 
   if (!userInfo.climbedRoutes) return <div>Add some climbs</div>
+
+  const editFlash = (event) => {
+    event.preventDefault()
+    editBoulderFlash(newBoulderFlash)
+  }
+
+  const handleBoulderFlashChange = (event) => {
+    setNewBoulderFlash(event.target.value)
+  }
 
   // Sorts the climbed routes and gives feedback, starting upwards from flashgrade
   const sorting = () => {
@@ -52,6 +63,9 @@ const BoulderGrades = ({ userInfo }) => {
 
   return (
     <>
+      <h1>Boulder Grades</h1>
+      <h3>Your boulder flash grade is {userInfo.boulderFlashGrade}</h3>
+      <FlashForm handleChange={handleBoulderFlashChange} editFlash={editFlash} text={'boulder'}/>
       {/* Shows all of the climbed grades. Plus grades can be toggled by pushing the button */}
       <h3>Different boulder grades climbed</h3>
       <table>
