@@ -17,52 +17,49 @@ const BoulderGrades = ({ editBoulderFlash, userInfo }) => {
     setNewBoulderFlash(event.target.value)
   }
 
+  // Fills any gaps there might be in original list
   const fillGaps = (sortedList) => {
-    console.log('sortedlist ', sortedList)
     for (let index = 0; index < sortedList.length; index++) {
       if (sortedList[index].grade !== gradesHelper[index].grade) {
         sortedList.splice(index, 0, gradesHelper[index])
       }
     }
-    console.log('FILLED ', sortedList)
     return sortedList
+  }
+  // Sorts the climbed routes by grade
+  const sortByGrade = (routes) => {
+    const sortedByGrade = routes.sort((a, b) => (a.grade > b.grade) ? 1 : -1)
+    return sortedByGrade
   }
 
   // Sorts the climbed routes and gives feedback, starting upwards from flashgrade
-  const sorting = (props) => {
-    console.log('sorting props', props )
+  const feedback = (props) => {
     const routes = props
     if (!routes) return <div>No sends yet</div>
 
-    const sortedByGrade = routes.sort((a, b) => (a.grade > b.grade) ? 1 : -1)
-    console.log('sorted by grade ', sortedByGrade)
-    console.log('grade helper ', gradesHelper)
-    const gapsFilled = fillGaps(sortedByGrade)
-    console.log('gapsFilled ', gapsFilled)
-
     return (
-      gapsFilled.map((route, index) => {
-        if (gapsFilled[index + 1] && route.grade >= userInfo.boulderFlashGrade && gapsFilled[index + 1].boulder > 0) {
-          const comparison = route.boulder - (gapsFilled[index + 1].boulder * 3)
+      routes.map((route, index) => {
+        if (routes[index + 1] && route.grade >= userInfo.boulderFlashGrade && routes[index + 1].boulder > 0) {
+          const comparison = route.boulder - (routes[index + 1].boulder * 3)
           if (comparison < -3) {
-            return <p key={route.grade}>You can climb { comparison * -1 + 3 } routes of grade { route.grade } to balance your move bank and move on to work on your next { gapsFilled[index + 1].grade}</p>
+            return <p key={route.grade}>You can climb { comparison * -1 + 3 } routes of grade { route.grade } to balance your move bank and move on to work on your next { routes[index + 1].grade}</p>
           }
           if (comparison > 3) {
-            return <p key={route.grade}>You have plenty of { route.grade } grades in your move bank, try to climb some { gapsFilled[index + 1].grade} grades</p>
+            return <p key={route.grade}>You have plenty of { route.grade } grades in your move bank, try to climb some { routes[index + 1].grade} grades</p>
           }
           if (comparison >= 0) {
-            return <p key={route.grade}>You are all set to climb another { gapsFilled[index + 1].grade}</p>
+            return <p key={route.grade}>You are all set to climb another { routes[index + 1].grade}</p>
           }
-          return <p key={route.grade}>Your move bank is missing only { comparison * -1 } routes of { route.grade } grades to be ready for another { gapsFilled[index + 1].grade}</p>
+          return <p key={route.grade}>Your move bank is missing only { comparison * -1 } routes of { route.grade } grades to be ready for another { routes[index + 1].grade}</p>
         }
       })
     )
   }
 
   // Sums up whole grade sends with plus grade sends and returns a new list.
-  const ignorePlus = () => {
+  const ignorePlus = (climbedRoutes) => {
     return (
-      userInfo.climbedRoutes.map((route, index) => {
+      climbedRoutes.map((route, index) => {
         if (userInfo.climbedRoutes[index + 1] && !route.grade.includes('+')) {
           return { ...route, boulder: route.boulder + userInfo.climbedRoutes[index + 1].boulder }
         }
@@ -74,10 +71,19 @@ const BoulderGrades = ({ editBoulderFlash, userInfo }) => {
   }
 
   // Filters undefineds from ignorePlus returned list to get list of whole grade ascends
-  const plusIgnored = () => {
-    const ignored = ignorePlus()
+  const plusIgnored = (climbedRoutes) => {
+    const sortedRoutes = sortByGrade(climbedRoutes)
+    const prosessedList = fillGaps(sortedRoutes)
+    const ignored = ignorePlus(prosessedList)
     const filteredReturnValue = ignored.filter(route => route)
     return filteredReturnValue
+  }
+
+  //shows results with plus grades included
+  const withPlus = (climbedRoutes) => {
+    const sortedRoutes = sortByGrade(climbedRoutes)
+    const prosessedList = fillGaps(sortedRoutes)
+    return prosessedList
   }
 
   return (
@@ -107,7 +113,7 @@ const BoulderGrades = ({ editBoulderFlash, userInfo }) => {
         )}
       </table>
       {/* Button to toggle whether the plus grades are shown and shows feedback */}
-      { showPlus ? sorting(userInfo.climbedRoutes) : sorting(plusIgnored()) }
+      { showPlus ? feedback(withPlus(userInfo.climbedRoutes)) : feedback(plusIgnored(userInfo.climbedRoutes)) }
       <button type="button" onClick={() => { setShowPlus(!showPlus) }}>
         {showPlus ? 'Ignore "plus" grades' : 'Include "plus" grades' }</button>
     </>

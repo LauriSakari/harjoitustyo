@@ -2,7 +2,7 @@ import LogInForm from './LogInForm'
 import SignInForm from './SignInForm'
 import AddClimbsForm from './AddClimbsForm'
 
-const Home = ({ user, userInfo, setUser, handleLogout, setUserInfo }) => {
+const Home = ({ user, userInfo, setUser, setUserInfo }) => {
   return (
     <>
       <h1>Home</h1>
@@ -18,7 +18,6 @@ const Home = ({ user, userInfo, setUser, handleLogout, setUserInfo }) => {
       {user &&
 <>
   <h2>Hello {userInfo.username}</h2>
-  <button onClick={handleLogout}>Logout</button>
 
   <AddClimbsForm userInfo={userInfo} setUserInfo={setUserInfo}/>
 

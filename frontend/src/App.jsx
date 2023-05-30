@@ -70,13 +70,14 @@ const App = () => {
         <Link style={padding} to="/">Home</Link>
         <Link style={padding} to="/boulder">Boulder</Link>
         <Link style={padding} to="/sport">Sport</Link>
+        <button onClick={handleLogout}>Logout</button>
       </div>
 
 
       <Routes>
         <Route path="/boulder" element={<BoulderGrades editBoulderFlash={editBoulderFlash} userInfo={userInfo}/>} />
         <Route path="/sport" element={<SportGrades editSportFlash={editSportFlash} userInfo={userInfo}/>} />
-        <Route path="/" element={<Home user={user} userInfo={userInfo} setUser={setUser} handleLogout={handleLogout} setUserInfo={setUserInfo} />} />
+        <Route path="/" element={<Home user={user} userInfo={userInfo} setUser={setUser} setUserInfo={setUserInfo} />} />
       </Routes>
 
     </Router>
