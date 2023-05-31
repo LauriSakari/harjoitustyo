@@ -7,9 +7,6 @@ const findGrade = (values, userInfo) => {
   const editedUserInfo = userInfo.climbedRoutes.map(obj => {
 
     if (obj.grade === grade) {
-      console.log('g.grade ', obj.grade, 'grade ', grade)
-      console.log('g.grade', obj.grade[style])
-      console.log('g[style]', obj[style])
       if (!obj[style]) {
         obj[style] = 0
       }

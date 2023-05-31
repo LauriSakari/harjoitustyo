@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import {
-  BrowserRouter as Router,
-  Routes, Route, Link
+  Routes, Route, Link, useNavigate
 } from 'react-router-dom'
 import BoulderGrades from './BoulderGrades'
 import userInfoService from './services/userInfo'
@@ -13,6 +12,8 @@ import Home from './Home'
 const App = () => {
   const [userInfo, setUserInfo] = useState({ climbedRoutes: [] })
   const [user, setUser] = useState('')
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (user.id) {
@@ -59,13 +60,14 @@ const App = () => {
     console.log('logging out')
     window.localStorage.removeItem('loggedMoveBankUser')
     setUser('')
+    navigate('/')
   }
 
   const padding = {
     padding: 5
   }
   return (
-    <Router>
+    <>
       <div>
         <Link style={padding} to="/">Home</Link>
         <Link style={padding} to="/boulder">Boulder</Link>
@@ -79,8 +81,7 @@ const App = () => {
         <Route path="/sport" element={<SportGrades editSportFlash={editSportFlash} userInfo={userInfo}/>} />
         <Route path="/" element={<Home user={user} userInfo={userInfo} setUser={setUser} setUserInfo={setUserInfo} />} />
       </Routes>
-
-    </Router>
+    </>
   )}
 
 export default App
