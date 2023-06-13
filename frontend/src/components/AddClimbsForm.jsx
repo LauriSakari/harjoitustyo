@@ -1,5 +1,6 @@
 import { useFormik } from 'formik'
-import userService from './services/userInfo'
+import userService from '../services/userInfo'
+import gradesHelper from '../utils/gradesHelper'
 
 const findGrade = (values, userInfo) => {
   const { grade, style, routesClimbed } = values
@@ -15,7 +16,6 @@ const findGrade = (values, userInfo) => {
     }
     return obj
   })
-  console.log('editedUserInfo' , editedUserInfo)
 
   if (editedUserInfo.length === 0) {
     const newUserInfo = (style === 'boulder') ?
@@ -24,20 +24,17 @@ const findGrade = (values, userInfo) => {
     return newUserInfo
   }
   if (!found) {
-    console.log('not foud!')
     const editedClimbs = userInfo.climbedRoutes.concat(style === 'boulder' ?
       { grade: grade, boulder: routesClimbed } :
       { grade: grade, sport: routesClimbed })
-    console.log('editedUserinfo', editedClimbs)
     const newUserInfo = { ...userInfo, climbedRoutes: editedClimbs }
-    console.log('newUserInfo', newUserInfo)
     return newUserInfo
   }
   const newUserInfo = { ...userInfo, climbedRoutes: editedUserInfo }
   return newUserInfo
 }
 
-const AddClimbsForm = ({ userInfo, setUserInfo }) => {
+const AddClimbsForm = ({ userInfo, setUserInfo, handleNotificationChange }) => {
 
   const formik = useFormik({
     initialValues: {
@@ -47,44 +44,36 @@ const AddClimbsForm = ({ userInfo, setUserInfo }) => {
     },
     onSubmit: async values => {
       const updatedUserinfo = findGrade(values, userInfo)
-      console.log('updatedUserinfo', updatedUserinfo)
-      const result = await userService.editClimbedRoutes(updatedUserinfo)
-      console.log('result', result)
-      setUserInfo(result)
+      try {
+        const result = await userService.editClimbedRoutes(updatedUserinfo)
+        setUserInfo(result)
+        handleNotificationChange({ message: `Added ${values.routesClimbed} ${values.grade} ${values.style} routes to your climbed routes`, type: 'success' })
+        setTimeout(() => {
+          handleNotificationChange({ message: null })
+        }, 4000)
+      } catch (error) {
+        handleNotificationChange({ message: `Failed to add routes ${error.message}`, type: 'error' })
+        setTimeout(() => {
+          handleNotificationChange({ message: null })
+        }, 4000)
+      }
+
     }
   })
   return (
     <>
-      <div>Add Climbs</div>
       <form onSubmit={formik.handleSubmit}>
-        <label>Grade</label>
+        <div>Add Climbs:</div>
+        <label>Grade:</label>
         <select
           id='grade'
           name='grade'
           type='grade'
           onChange={formik.handleChange}
           value={formik.values.grade}>
-          <option> 6A </option>
-          <option> 6A+ </option>
-          <option> 6B </option>
-          <option> 6B+ </option>
-          <option> 6C </option>
-          <option> 6C+ </option>
-          <option> 7A </option>
-          <option> 7A+ </option>
-          <option> 7B </option>
-          <option> 7B+ </option>
-          <option> 7C </option>
-          <option> 7C+ </option>
-          <option> 8A </option>
-          <option> 8A+ </option>
-          <option> 8B </option>
-          <option> 8B+ </option>
-          <option> 8C </option>
-          <option> 8C+ </option>
-          <option> 9A </option>
+          {gradesHelper.map(element => <option key={element.grade}> {element.grade} </option>)}
         </select>
-        <label>Style</label>
+        <label>Style:</label>
         <select
           id='style'
           name='style'
@@ -94,7 +83,7 @@ const AddClimbsForm = ({ userInfo, setUserInfo }) => {
           <option value={'boulder'}>Boulder</option>
           <option value={'sport'}>Sport</option>
         </select>
-        <label>Routes climbed</label>
+        <label>Routes climbed:</label>
         <input
           id='routesClimbed'
           name='routesClimbed'

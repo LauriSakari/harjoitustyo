@@ -23,7 +23,7 @@ const ignorePlus = (climbedRoutes) => {
         return { ...route, boulder: route.boulder + climbedRoutes[index + 1].boulder,
           sport: route.sport + climbedRoutes[index + 1].sport }
       }
-      if (index === climbedRoutes.length - 1) {
+      if (index === climbedRoutes.length - 1 && !route.grade.includes('+')) {
         return route
       }
     }
@@ -36,6 +36,7 @@ const plusIgnored = (climbedRoutes) => {
   const prosessedList = fillGaps(sortedRoutes)
   const ignored = ignorePlus(prosessedList)
   const filteredReturnValue = ignored.filter(route => route)
+  console.log('filteredReturnValue ', filteredReturnValue)
   return filteredReturnValue
 }
 

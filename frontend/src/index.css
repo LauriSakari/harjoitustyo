@@ -1,0 +1,113 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+h1, h2, h3 {
+    padding: 0.5em;
+  }
+
+body {
+    background-color: #F4EBE8;
+    font-family: Arial, Helvetica, sans-serif;
+    
+}
+
+.navbar {
+    background: #222;
+    display: flex;
+    flex-wrap: wrap; 
+    align-items: center;
+}
+
+button {
+    border-style: none;
+    background-color: grey;
+    border-radius: 5px;
+    border-color: rgb(0, 0, 0);
+    padding: 0.5em 1em;
+    margin: 0.5em;
+}
+
+.logout-button {
+    border-style: none;
+    background-color: gray;
+    border-radius: 5px;
+    border-color: rgb(0, 0, 0);
+    padding: 0.5em 1em;
+    margin: 0.5em;
+    margin-left: auto;
+}
+select { 
+    border-radius: 5px;
+    padding: 0.4em 1em;
+    margin: 0.5em;
+}
+
+a {
+    color: #fff;
+    text-decoration: none;
+    padding: 5px;
+}
+
+form {
+    padding: 0.5em;
+    margin: 0.5em;
+}
+
+table {
+    padding: 0.5em;
+    margin: 0.5em;
+}
+
+p {
+    padding: 0.5em;
+    margin: 0.5em;
+}
+
+th {
+    padding-right: 1em;
+    padding-bottom: 0.5em;
+}
+
+td {
+    padding-left: 0.5em;
+    padding-bottom: 0.1em;
+}
+
+input {
+    border-radius: 5px;
+    padding: 0.4em 1em;
+    margin: 0.5em;
+}
+
+.label-input {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+}
+
+.signin-error { 
+    color: red;
+    padding-bottom: 0.4em;
+}
+
+.error {
+    color: red;
+    background: lightgrey;
+    font-size: 20px;
+    border-style: solid;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  .success {
+    color: green;
+    background: lightgrey;
+    font-size: 20px;
+    border-style: solid;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+  }

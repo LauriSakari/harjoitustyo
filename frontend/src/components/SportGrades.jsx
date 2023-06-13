@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import FlashForm from './FlashForm'
+import Feedback from './Feedback'
 import gradeFunctions from '../utils/gradeFunctions'
 
 const SportGrades = ({ editSportFlash, userInfo }) => {
@@ -16,36 +17,10 @@ const SportGrades = ({ editSportFlash, userInfo }) => {
   }
 
   const routesToShow = (climbedRoutes) => {
-    console.log(climbedRoutes)
     if (!showPlus) {
       return gradeFunctions.plusIgnored(climbedRoutes)
     }
-    console.log('true')
     return climbedRoutes
-  }
-
-  // Gives feedback, starting upwards from flashgrade
-  const feedback = (props) => {
-    const routes = props
-    if (!routes) return <div>No sends yet</div>
-
-    return (
-      routes.map((route, index) => {
-        if (routes[index + 1] && route.grade >= userInfo.sportFlashGrade && routes[index + 1].sport > 0) {
-          const comparison = route.sport - (routes[index + 1].sport * 3)
-          if (comparison < -3) {
-            return <p key={route.grade}>You can climb { comparison * -1 + 3 } routes of grade { route.grade } to balance your move bank and move on to work on your next { routes[index + 1].grade}</p>
-          }
-          if (comparison > 3) {
-            return <p key={route.grade}>You have plenty of { route.grade } grades in your move bank, try to climb some { routes[index + 1].grade} grades</p>
-          }
-          if (comparison >= 0) {
-            return <p key={route.grade}>You are all set to climb another { routes[index + 1].grade}</p>
-          }
-          return <p key={route.grade}>Your move bank is missing only { comparison * -1 } routes of { route.grade } grades to be ready for another { routes[index + 1].grade}</p>
-        }
-      })
-    )
   }
 
   return (
@@ -75,7 +50,8 @@ const SportGrades = ({ editSportFlash, userInfo }) => {
         )}
       </table>
       {/* Button to toggle whether the plus grades are shown and shows feedback */}
-      { showPlus ? feedback(gradeFunctions.withPlus(userInfo.climbedRoutes)) : feedback(gradeFunctions.plusIgnored(userInfo.climbedRoutes)) }
+      { showPlus ? <Feedback routes={gradeFunctions.withPlus(userInfo.climbedRoutes)} flashGrade={userInfo.sportFlashGrade} style={'sport'}/>
+        : <Feedback routes={gradeFunctions.plusIgnored(userInfo.climbedRoutes)} flashGrade={userInfo.sportFlashGrade} style={'sport'}/>  }
       <button type="button" onClick={() => { setShowPlus(!showPlus) }}>
         {showPlus ? 'Ignore "plus" grades' : 'Include "plus" grades' }</button>
     </>

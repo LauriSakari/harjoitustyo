@@ -2,16 +2,18 @@ import { useState, useEffect } from 'react'
 import {
   Routes, Route, Link, useNavigate
 } from 'react-router-dom'
-import BoulderGrades from './BoulderGrades'
+import BoulderGrades from './components/BoulderGrades'
 import userInfoService from './services/userInfo'
-
-import SportGrades from './SportGrades'
-import Home from './Home'
+import SportGrades from './components/SportGrades'
+import Home from './components/Home'
+import './index.css'
+import Notification from './components/Notification'
 
 
 const App = () => {
   const [userInfo, setUserInfo] = useState({ climbedRoutes: [] })
   const [user, setUser] = useState('')
+  const [notification, setNotification] = useState({ message: null  })
 
   const navigate = useNavigate()
 
@@ -36,9 +38,7 @@ const App = () => {
   }, [])
 
   const editBoulderFlash = (newBoulderFlash) => {
-    console.log('newBoulderFlash', newBoulderFlash)
     const changedUserInfo = { ...userInfo, boulderFlashGrade: newBoulderFlash }
-    console.log('changedUserInfo', changedUserInfo)
     userInfoService
       .editFlashGrade(changedUserInfo)
       .then(response => {
@@ -47,7 +47,6 @@ const App = () => {
   }
 
   const editSportFlash = (newSportFlash) => {
-    console.log('newSportFlash', newSportFlash)
     const changedUserInfo = { ...userInfo, sportFlashGrade: newSportFlash }
     userInfoService
       .editFlashGrade(changedUserInfo)
@@ -61,25 +60,26 @@ const App = () => {
     window.localStorage.removeItem('loggedMoveBankUser')
     setUser('')
     navigate('/')
+    setNotification({ message: 'You have successfully logged out', type: 'success' })
   }
 
-  const padding = {
-    padding: 5
-  }
+  if (!user) return <Home setUser={setUser} notification={notification} setNotification={setNotification}/>
+
   return (
     <>
-      <div>
-        <Link style={padding} to="/">Home</Link>
-        <Link style={padding} to="/boulder">Boulder</Link>
-        <Link style={padding} to="/sport">Sport</Link>
-        <button onClick={handleLogout}>Logout</button>
+      <div className='navbar'>
+        <Link to="/">Home</Link>
+        <Link to="/boulder">Boulder</Link>
+        <Link to="/sport">Sport</Link>
+        <button className='logout-button' onClick={handleLogout}>Logout</button>
       </div>
 
+      <Notification notification={notification}/>
 
       <Routes>
         <Route path="/boulder" element={<BoulderGrades editBoulderFlash={editBoulderFlash} userInfo={userInfo}/>} />
         <Route path="/sport" element={<SportGrades editSportFlash={editSportFlash} userInfo={userInfo}/>} />
-        <Route path="/" element={<Home user={user} userInfo={userInfo} setUser={setUser} setUserInfo={setUserInfo} />} />
+        <Route path="/" element={<Home user={user} userInfo={userInfo} setUser={setUser} setUserInfo={setUserInfo} setNotification={setNotification}/>} />
       </Routes>
     </>
   )}

@@ -1,3 +1,6 @@
+/// <reference types="vitest" />
+/// <reference types="vite/client" />
+
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import eslint from 'vite-plugin-eslint'
@@ -8,7 +11,16 @@ export default defineConfig({
   plugins: [react(), eslint()],
   server: {
     hmr: {
-      overlay: false
-    },
+      overlay: false,
+      environment: 'jest-dom'
+    }
+  },
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    css: true,
+    coverage: {
+      provider: 'v8'
+    }
   }
 })
