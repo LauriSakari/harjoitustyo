@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import FlashForm from './FlashForm'
 import Feedback from './Feedback'
+import ClimbsTable from './ClimbsTable'
 import gradeFunctions from '../utils/gradeFunctions'
 
 const SportGrades = ({ editSportFlash, userInfo }) => {
@@ -30,25 +31,8 @@ const SportGrades = ({ editSportFlash, userInfo }) => {
       <FlashForm handleChange={handleSportFlashChange} editFlash={editFlash} text={'sport'}/>
       {/* Shows all of the climbed grades. Plus grades can be toggled by pushing the button */}
       <h3>Different sport grades climbed</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Grade</th>
-            <th>Sends</th>
-          </tr>
-        </thead>
-        {routesToShow(userInfo.climbedRoutes).map(grade => {
-          if (grade.sport > 0)
-            return (
-              <tbody key={grade.grade}>
-                <tr>
-                  <td>{grade.grade}</td>
-                  <td>{grade.sport}</td>
-                </tr>
-              </tbody>)
-        }
-        )}
-      </table>
+      <ClimbsTable routesToShow={routesToShow(userInfo.climbedRoutes)} style={'sport'}/>
+
       {/* Button to toggle whether the plus grades are shown and shows feedback */}
       { showPlus ? <Feedback routes={gradeFunctions.withPlus(userInfo.climbedRoutes)} flashGrade={userInfo.sportFlashGrade} style={'sport'}/>
         : <Feedback routes={gradeFunctions.plusIgnored(userInfo.climbedRoutes)} flashGrade={userInfo.sportFlashGrade} style={'sport'}/>  }

@@ -24,7 +24,7 @@ test('renders table with plus grades', () => {
   screen.getByTestId('6B+')
 })
 
-test('does not render plus grades after clicking the button', async () => {
+test('does not render plus grades after clicking "ignore plus" button', async () => {
   const user = userEvent.setup()
   render(<BoulderGrades userInfo={testHelper.userWithClimbs}/>)
   const gradesBeforeClick = screen.queryAllByTestId(/[+]/)
@@ -48,4 +48,9 @@ test('change boulder flash grade button works and delivers new grade', async () 
   expect(mockHandler.mock.calls).toHaveLength(1)
   expect(mockHandler.mock.calls[0][0]).toBe('6B')
 
+})
+
+test('returns "no sends yet" if there is no clibs added', () => {
+  render(<BoulderGrades userInfo={testHelper.userWithoutClimbs}/>)
+  screen.getByText('No sends yet')
 })

@@ -22,7 +22,6 @@ const SignInForm = ({ setUser }) => {
       const response = await signIn(values)
       const newUser = response.data
       if (newUser) {
-        console.log('newUser', newUser)
         setUser(newUser)
         window.localStorage.setItem(
           'loggedMoveBankUser', JSON.stringify(newUser)

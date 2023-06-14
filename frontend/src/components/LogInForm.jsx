@@ -19,7 +19,6 @@ const LogInForm = ({ setUser, handleNotificationChange }) => {
     try {
       const result = await login({ username, password })
       const user = result.data
-      console.log('user', user)
       setUser(user)
       window.localStorage.setItem(
         'loggedMoveBankUser', JSON.stringify(user)
@@ -29,7 +28,6 @@ const LogInForm = ({ setUser, handleNotificationChange }) => {
         handleNotificationChange({ message: null })
       }, 3000)
     } catch (error) {
-      console.log('error', error)
       handleNotificationChange({ message: 'Incorrect username or password', type: 'error' })
     }
 

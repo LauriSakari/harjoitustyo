@@ -36,7 +36,6 @@ const plusIgnored = (climbedRoutes) => {
   const prosessedList = fillGaps(sortedRoutes)
   const ignored = ignorePlus(prosessedList)
   const filteredReturnValue = ignored.filter(route => route)
-  console.log('filteredReturnValue ', filteredReturnValue)
   return filteredReturnValue
 }
 
