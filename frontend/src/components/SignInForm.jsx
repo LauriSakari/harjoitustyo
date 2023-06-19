@@ -9,7 +9,7 @@ const signInSchema = yup.object().shape({
   password: yup.string().required('Password is required'),
 })
 
-const SignInForm = ({ setUser }) => {
+const SignInForm = ({ setUser, handleNotificationChange }) => {
 
   const formik = useFormik({
     initialValues: {
@@ -19,14 +19,24 @@ const SignInForm = ({ setUser }) => {
     },
     validationSchema: signInSchema,
     onSubmit: async (values) => {
-      const response = await signIn(values)
-      const newUser = response.data
-      if (newUser) {
-        setUser(newUser)
-        window.localStorage.setItem(
-          'loggedMoveBankUser', JSON.stringify(newUser)
-        )
+      try {
+        const response = await signIn(values)
+        const newUser = response.data
+        if (newUser) {
+          setUser(newUser)
+          window.localStorage.setItem(
+            'loggedMoveBankUser', JSON.stringify(newUser)
+          )
+          handleNotificationChange({ message: `Welcome ${newUser.username}`, type: 'success' })
+          setTimeout(() => {
+            handleNotificationChange({ message: null })
+          }, 4000)
+        }
+      } catch (error) {
+        const errorMessage = error.response.data.error.message
+        handleNotificationChange({ message: errorMessage, type: 'error' })
       }
+
     },
     errors: null,
   })

@@ -17,7 +17,7 @@ const Home = ({ user, userInfo, setUser, setUserInfo, notification, setNotificat
         <p> Welcome! Please sign in or create an account </p>
         <Notification notification={notification}/>
         <LogInForm setUser={setUser} handleNotificationChange={handleNotificationChange}/>
-        <SignInForm setUser={setUser}/>
+        <SignInForm setUser={setUser} handleNotificationChange={handleNotificationChange}/>
       </>
       }
 
