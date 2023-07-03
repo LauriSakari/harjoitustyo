@@ -40,9 +40,9 @@ test('change boulder flash grade button works and delivers new grade', async () 
   const mockHandler = vi.fn()
   render(<BoulderGrades editBoulderFlash={mockHandler} userInfo={testHelper.userWithClimbs}/>)
   const button = screen.getByText('Save new boulder flash grade')
+  const flashForm = screen.getByTestId('flashForm')
   user.selectOptions(
-    screen.getByRole('combobox'),
-    screen.getByRole('option', { name: '6B' } ),
+    flashForm, '6B'
   )
   await user.click(button)
   expect(mockHandler.mock.calls).toHaveLength(1)

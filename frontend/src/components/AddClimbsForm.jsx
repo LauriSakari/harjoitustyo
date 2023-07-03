@@ -34,12 +34,12 @@ const findGrade = (values, userInfo) => {
   return newUserInfo
 }
 
-const AddClimbsForm = ({ userInfo, setUserInfo, handleNotificationChange }) => {
+const AddClimbsForm = ({ userInfo, setUserInfo, handleNotificationChange, style }) => {
 
   const formik = useFormik({
     initialValues: {
       grade: '6A',
-      style: 'boulder',
+      style: style,
       routesClimbed: ''
     },
     onSubmit: async values => {
@@ -73,16 +73,7 @@ const AddClimbsForm = ({ userInfo, setUserInfo, handleNotificationChange }) => {
           value={formik.values.grade}>
           {gradesHelper.map(element => <option key={element.grade}> {element.grade} </option>)}
         </select>
-        <label>Style:</label>
-        <select
-          id='style'
-          name='style'
-          type='style'
-          onChange={formik.handleChange}
-          value={formik.values.style}>
-          <option value={'boulder'}>Boulder</option>
-          <option value={'sport'}>Sport</option>
-        </select>
+
         <label>Routes climbed:</label>
         <input
           id='routesClimbed'

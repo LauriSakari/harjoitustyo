@@ -77,8 +77,8 @@ const App = () => {
       <Notification notification={notification}/>
 
       <Routes>
-        <Route path="/boulder" element={<BoulderGrades editBoulderFlash={editBoulderFlash} userInfo={userInfo}/>} />
-        <Route path="/sport" element={<SportGrades editSportFlash={editSportFlash} userInfo={userInfo}/>} />
+        <Route path="/boulder" element={<BoulderGrades editBoulderFlash={editBoulderFlash} userInfo={userInfo} setUserInfo={setUserInfo} setNotification={setNotification}/>} />
+        <Route path="/sport" element={<SportGrades editSportFlash={editSportFlash} userInfo={userInfo} setUserInfo={setUserInfo} setNotification={setNotification}/>} />
         <Route path="/" element={<Home user={user} userInfo={userInfo} setUser={setUser} setUserInfo={setUserInfo} setNotification={setNotification}/>} />
       </Routes>
     </>
