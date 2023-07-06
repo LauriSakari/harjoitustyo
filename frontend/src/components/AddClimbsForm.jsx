@@ -1,6 +1,7 @@
 import { useFormik } from 'formik'
 import userService from '../services/userInfo'
 import gradesHelper from '../utils/gradesHelper'
+import { useState } from 'react'
 
 const findGrade = (values, userInfo) => {
   const { grade, style, routesClimbed } = values
@@ -18,23 +19,38 @@ const findGrade = (values, userInfo) => {
   })
 
   if (editedUserInfo.length === 0) {
-    const newUserInfo = (style === 'boulder') ?
+    return (style === 'boulder') ?
       { ...userInfo, climbedRoutes: { grade: grade, boulder: routesClimbed }  } :
       { ...userInfo, climbedRoutes: { grade: grade, sport: routesClimbed } }
-    return newUserInfo
   }
+
   if (!found) {
     const editedClimbs = userInfo.climbedRoutes.concat(style === 'boulder' ?
       { grade: grade, boulder: routesClimbed } :
       { grade: grade, sport: routesClimbed })
-    const newUserInfo = { ...userInfo, climbedRoutes: editedClimbs }
-    return newUserInfo
+    return { ...userInfo, climbedRoutes: editedClimbs }
   }
-  const newUserInfo = { ...userInfo, climbedRoutes: editedUserInfo }
-  return newUserInfo
+
+  return { ...userInfo, climbedRoutes: editedUserInfo }
 }
 
+const newRoutesSum = (collectedRoutes) => {
+  let sum = 0
+  collectedRoutes.forEach(element => {
+    sum += element.routesClimbed
+  })
+  return sum
+}
+
+
 const AddClimbsForm = ({ userInfo, setUserInfo, handleNotificationChange, style }) => {
+
+  const [collectedRoutes, setCollectedRoutes] = useState([])
+  const [id, setId] = useState(0)
+
+  const handleRemoveButton = (id) => {
+    setCollectedRoutes(collectedRoutes.filter(route => route.id !== id))
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -42,12 +58,15 @@ const AddClimbsForm = ({ userInfo, setUserInfo, handleNotificationChange, style 
       style: style,
       routesClimbed: ''
     },
-    onSubmit: async values => {
-      const updatedUserinfo = findGrade(values, userInfo)
+    onSubmit: async () => {
+      const updatedUserinfo = collectedRoutes.reduce((final, values) => {
+        return findGrade(values, userInfo)
+      }, 0)
       try {
         const result = await userService.editClimbedRoutes(updatedUserinfo)
         setUserInfo(result)
-        handleNotificationChange({ message: `Added ${values.routesClimbed} ${values.grade} ${values.style} routes to your climbed routes`, type: 'success' })
+        handleNotificationChange({ message: `Added ${newRoutesSum(collectedRoutes)} routes to your climbed routes`, type: 'success' })
+        setCollectedRoutes([])
         setTimeout(() => {
           handleNotificationChange({ message: null })
         }, 4000)
@@ -57,13 +76,30 @@ const AddClimbsForm = ({ userInfo, setUserInfo, handleNotificationChange, style 
           handleNotificationChange({ message: null })
         }, 4000)
       }
-
     }
   })
+
+  const handleAddButton = () => {
+
+    const values = {
+      id: id,
+      grade: formik.values.grade,
+      style: formik.values.style,
+      routesClimbed: formik.values.routesClimbed
+    }
+
+    setCollectedRoutes((prevRoutes) => [
+      ...prevRoutes,
+      values])
+
+    setId((prev) => ++prev)
+  }
+
   return (
     <>
       <form onSubmit={formik.handleSubmit}>
         <div>Add Climbs:</div>
+        {collectedRoutes.map(addedRoutes => <li key={addedRoutes.id}> Grade: {addedRoutes.grade} Routes climbed: {addedRoutes.routesClimbed}<button type='button' onClick={() => handleRemoveButton(addedRoutes.id)}>Remove</button></li> )}
         <label>Grade:</label>
         <select
           id='grade'
@@ -81,10 +117,11 @@ const AddClimbsForm = ({ userInfo, setUserInfo, handleNotificationChange, style 
           type='number'
           onChange={formik.handleChange}
           value={formik.values.routesClimbed}/>
-        <button type="submit">Submit</button>
+        <button type="button" onClick={handleAddButton}>Add</button>
+        <br/>
+        <button type="submit" disabled={collectedRoutes.length === 0}>Submit</button>
       </form>
     </>
-
   )
 }
 
