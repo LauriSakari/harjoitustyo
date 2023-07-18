@@ -2,6 +2,13 @@ import { useFormik } from 'formik'
 import userService from '../services/userInfo'
 import gradesHelper from '../utils/gradesHelper'
 import { useState } from 'react'
+import activityService from '../services/activity'
+import * as yup from 'yup'
+
+const addClimbsSchema = yup.object().shape({
+  date: yup.date().required('Date is required'),
+  notes: yup.string().required('Notes are required'),
+})
 
 const findGrade = (values, userInfo) => {
   const { grade, style, routesClimbed } = values
@@ -56,13 +63,19 @@ const AddClimbsForm = ({ userInfo, setUserInfo, handleNotificationChange, style 
     initialValues: {
       grade: '6A',
       style: style,
-      routesClimbed: ''
+      routesClimbed: '',
+      date: '',
+      notes: ''
     },
-    onSubmit: async () => {
+    validationSchema: addClimbsSchema,
+    onSubmit: async (values) => {
+      const userId = userInfo.id
       const updatedUserinfo = collectedRoutes.reduce((final, values) => {
         return findGrade(values, userInfo)
       }, 0)
       try {
+        const activityResult = await activityService.newActivity(collectedRoutes, values, userId)
+        updatedUserinfo.activities.push(activityResult.data.id)
         const result = await userService.editClimbedRoutes(updatedUserinfo)
         setUserInfo(result)
         handleNotificationChange({ message: `Added ${newRoutesSum(collectedRoutes)} routes to your climbed routes`, type: 'success' })
@@ -119,6 +132,21 @@ const AddClimbsForm = ({ userInfo, setUserInfo, handleNotificationChange, style 
           value={formik.values.routesClimbed}/>
         <button type="button" onClick={handleAddButton}>Add</button>
         <br/>
+        <label>Date:</label>
+        <input
+          id='date'
+          name='date'
+          type='date'
+          onChange={formik.handleChange}
+          value={formik.values.date}/>
+        {formik.touched.date && formik.errors.date ? (<div className='signin-error' >{formik.errors.date}</div>) : null}
+        <label>Notes:</label>
+        <input
+          id='notes'
+          name='notes'
+          type='text'
+          onChange={formik.handleChange}
+          value={formik.values.notes}/>
         <button type="submit" disabled={collectedRoutes.length === 0}>Submit</button>
       </form>
     </>

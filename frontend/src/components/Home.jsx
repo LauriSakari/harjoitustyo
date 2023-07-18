@@ -4,6 +4,7 @@ import Notification from './Notification'
 
 const Home = ({ user, userInfo, setUser, notification, setNotification }) => {
 
+
   const handleNotificationChange = (message) => {
     setNotification(message)
   }
@@ -23,6 +24,8 @@ const Home = ({ user, userInfo, setUser, notification, setNotification }) => {
       {user &&
 <>
   <h2>Hello {userInfo.username}</h2>
+
+  <div>Latest activities</div>
 </>
       }
     </>
