@@ -10,10 +10,9 @@ usersRouter.get('/', (req, res) => {
 })
   
 usersRouter.get('/:id', (req, res) => {
-  console.log('req ', req.params.id)
   const id = req.params.id
-  console.log('id', id)
   User.findById(id)
+    .populate('activities')
     .then(user => { 
       if (user) {
         res.json(user)
@@ -42,11 +41,8 @@ usersRouter.post('/', async (req, res) => {
     const passwordHash = await bcrypt.hash(password, saltRounds)
   
     const user = new User({ password, ...body, passwordHash, })
-    console.log('user', user)
     
     const savedUser = await user.save()
-
-    console.log('savedUser ', savedUser)
    
     res.status(201).json(savedUser)
     
@@ -59,17 +55,15 @@ usersRouter.post('/', async (req, res) => {
 })
 
 usersRouter.put('/:id', async (req, res) => {
-
   try {
-    const { id, ...user } = req.body
-  
+    // eslint-disable-next-line no-unused-vars
+    const { id, activityId, activities, ...user } = req.body
+
     const updatedUser = await User.findByIdAndUpdate(id, user, { new: true })
-    console.log('updated', updatedUser)
-    
     res.json(updatedUser)
   } catch (error) {
     logger.error(error)
-    res.send(400).json({ error: error })
+    res.status(400).json({ error: error })
   }
 
 })

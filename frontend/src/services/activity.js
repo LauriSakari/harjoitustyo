@@ -11,6 +11,7 @@ const newActivity = async ( routesClimbed, values, userId ) => {
     user: userId,
     routesClimbed: routesClimbed
   }
+
   return await axios.post(baseUrl, newActivity)
 }
 

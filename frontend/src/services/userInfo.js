@@ -10,10 +10,10 @@ const editFlashGrade = async (changedUserInfo) => {
   return await axios.put(`${baseUrl}/${id}`, changedUserInfo)
 }
 
-const editClimbedRoutes = async (changedUserInfo) => {
-  console.log('changedUserInfo', changedUserInfo)
+const editClimbedRoutes = async (changedUserInfo, activityId) => {
   const id = changedUserInfo.id
-  const result = await axios.put(`${baseUrl}/${id}`, changedUserInfo)
+  const userInfo = { ...changedUserInfo, activityId: activityId }
+  const result = await axios.put(`${baseUrl}/${id}`, userInfo)
   return result.data
 }
 

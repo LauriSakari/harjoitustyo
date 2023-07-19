@@ -75,9 +75,10 @@ const AddClimbsForm = ({ userInfo, setUserInfo, handleNotificationChange, style 
       }, 0)
       try {
         const activityResult = await activityService.newActivity(collectedRoutes, values, userId)
-        updatedUserinfo.activities.push(activityResult.data.id)
-        const result = await userService.editClimbedRoutes(updatedUserinfo)
-        setUserInfo(result)
+        const activityId = activityResult.data.id
+        updatedUserinfo.activities.push(activityResult.data)
+        await userService.editClimbedRoutes(updatedUserinfo, activityId)
+        setUserInfo(updatedUserinfo)
         handleNotificationChange({ message: `Added ${newRoutesSum(collectedRoutes)} routes to your climbed routes`, type: 'success' })
         setCollectedRoutes([])
         setTimeout(() => {

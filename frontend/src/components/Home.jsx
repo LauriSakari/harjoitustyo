@@ -25,7 +25,22 @@ const Home = ({ user, userInfo, setUser, notification, setNotification }) => {
 <>
   <h2>Hello {userInfo.username}</h2>
 
-  <div>Latest activities</div>
+  <p>Latest activity:</p>
+
+
+
+  {userInfo.activities.map(activity => {
+    let style = ''
+    let sum = 0
+
+    activity.routesClimbed.forEach((grade) => {
+      style = grade.style
+      sum += grade.routesClimbed
+    })
+
+    return <li key={activity.id}>Date: { new Date(activity.date).toLocaleDateString() } Climbed routes: { sum } { style } {sum > 1 ? 'routes climbed' : 'route climbed'}</li>
+  })}
+
 </>
       }
     </>

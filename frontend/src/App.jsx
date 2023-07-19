@@ -11,7 +11,7 @@ import Notification from './components/Notification'
 
 
 const App = () => {
-  const [userInfo, setUserInfo] = useState({ climbedRoutes: [] })
+  const [userInfo, setUserInfo] = useState({ climbedRoutes: [], activities: [] })
   const [user, setUser] = useState('')
   const [notification, setNotification] = useState({ message: null  })
 
