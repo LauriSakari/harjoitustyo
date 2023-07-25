@@ -3,6 +3,7 @@ import userService from '../services/userInfo'
 import gradesHelper from '../utils/gradesHelper'
 import { useState } from 'react'
 import activityService from '../services/activity'
+import gradeFunctions from '../utils/gradeFunctions'
 import * as yup from 'yup'
 
 const addClimbsSchema = yup.object().shape({
@@ -10,36 +11,6 @@ const addClimbsSchema = yup.object().shape({
   notes: yup.string().required('Notes are required'),
 })
 
-const findGrade = (values, userInfo) => {
-  const { grade, style, routesClimbed } = values
-  let found = false
-  const editedUserInfo = userInfo.climbedRoutes.map(obj => {
-
-    if (obj.grade === grade) {
-      if (!obj[style]) {
-        obj[style] = 0
-      }
-      obj[style] += routesClimbed
-      found = true
-    }
-    return obj
-  })
-
-  if (editedUserInfo.length === 0) {
-    return (style === 'boulder') ?
-      { ...userInfo, climbedRoutes: { grade: grade, boulder: routesClimbed }  } :
-      { ...userInfo, climbedRoutes: { grade: grade, sport: routesClimbed } }
-  }
-
-  if (!found) {
-    const editedClimbs = userInfo.climbedRoutes.concat(style === 'boulder' ?
-      { grade: grade, boulder: routesClimbed } :
-      { grade: grade, sport: routesClimbed })
-    return { ...userInfo, climbedRoutes: editedClimbs }
-  }
-
-  return { ...userInfo, climbedRoutes: editedUserInfo }
-}
 
 const newRoutesSum = (collectedRoutes) => {
   let sum = 0
@@ -53,7 +24,9 @@ const newRoutesSum = (collectedRoutes) => {
 const AddClimbsForm = ({ userInfo, setUserInfo, handleNotificationChange, style }) => {
 
   const [collectedRoutes, setCollectedRoutes] = useState([])
-  const [id, setId] = useState(0)
+  const [id, setId] = useState(1)
+
+  console.log('collectedRoutes', collectedRoutes)
 
   const handleRemoveButton = (id) => {
     setCollectedRoutes(collectedRoutes.filter(route => route.id !== id))
@@ -70,13 +43,12 @@ const AddClimbsForm = ({ userInfo, setUserInfo, handleNotificationChange, style 
     validationSchema: addClimbsSchema,
     onSubmit: async (values) => {
       const userId = userInfo.id
-      const updatedUserinfo = collectedRoutes.reduce((final, values) => {
-        return findGrade(values, userInfo)
-      }, 0)
+      const updatedUserinfo = gradeFunctions.findGrade(userInfo, collectedRoutes)
       try {
         const activityResult = await activityService.newActivity(collectedRoutes, values, userId)
         const activityId = activityResult.data.id
         updatedUserinfo.activities.push(activityResult.data)
+
         await userService.editClimbedRoutes(updatedUserinfo, activityId)
         setUserInfo(updatedUserinfo)
         handleNotificationChange({ message: `Added ${newRoutesSum(collectedRoutes)} routes to your climbed routes`, type: 'success' })

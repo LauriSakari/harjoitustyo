@@ -11,7 +11,11 @@ const fillGaps = (sortedList) => {
 }
 // Sorts the climbed routes by grade
 const sortByGrade = (routes) => {
+  if (!routes) {
+    return []
+  }
   const sortedByGrade = routes.sort((a, b) => (a.grade > b.grade) ? 1 : -1)
+  console.log('SORTEDBYGRADE', sortedByGrade)
   return sortedByGrade
 }
 
@@ -46,4 +50,38 @@ const withPlus = (climbedRoutes) => {
   return prosessedList
 }
 
-export default { fillGaps, sortByGrade, plusIgnored, withPlus }
+const findGrade = (userInfo, routesToHandle) => {
+  let updatedUserinfo
+  let newList = userInfo.climbedRoutes
+  for (let index = 0; index < routesToHandle.length; index++) {
+    let found = false
+
+    const element = routesToHandle[index]
+    const style = element.style
+    newList.forEach((route, i) => {
+      if (route.grade !== element.grade) return
+      else {
+        found = true
+        if (!newList[i][style]) {
+          newList[i][style] = 0
+        }
+        const newRoutesClimbed = element.routesClimbed + route[style]
+        element.style === 'boulder' ?
+          newList[i].boulder = newRoutesClimbed :
+          newList[i].sport = newRoutesClimbed
+      }
+    })
+    if (!found) {
+      newList.push( (element.style === 'boulder') ?
+        { grade: element.grade, boulder: element.routesClimbed } :
+        { grade: element.grade, sport: element.routesClimbed })
+    }
+
+    updatedUserinfo = { ...userInfo, climbedRoutes: newList }
+
+  }
+  return updatedUserinfo
+}
+
+
+export default { fillGaps, sortByGrade, plusIgnored, withPlus, findGrade }

@@ -15,6 +15,13 @@ const newActivity = async ( routesClimbed, values, userId ) => {
   return await axios.post(baseUrl, newActivity)
 }
 
+const deleteActivity = async (activityId, userId) => {
+  console.log('REMOVEACTIVITY ', activityId)
+  console.log('REMOVEACTIVITYUSER ', userId)
+  return await axios.delete(`${baseUrl}/${activityId}`, userId)
+}
+
 export default {
-  newActivity
+  newActivity,
+  deleteActivity
 }

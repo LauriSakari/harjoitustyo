@@ -8,6 +8,7 @@ import SportGrades from './components/SportGrades'
 import Home from './components/Home'
 import './index.css'
 import Notification from './components/Notification'
+import Activities from './components/Activities'
 
 
 const App = () => {
@@ -63,6 +64,7 @@ const App = () => {
     setNotification({ message: 'You have successfully logged out', type: 'success' })
   }
 
+  console.log('USERINFO APP', userInfo)
   if (!user) return <Home setUser={setUser} notification={notification} setNotification={setNotification}/>
 
   return (
@@ -71,6 +73,7 @@ const App = () => {
         <Link to="/">Home</Link>
         <Link to="/boulder">Boulder</Link>
         <Link to="/sport">Sport</Link>
+        <Link to="/activity">Activity</Link>
         <button className='logout-button' onClick={handleLogout}>Logout</button>
       </div>
 
@@ -79,7 +82,8 @@ const App = () => {
       <Routes>
         <Route path="/boulder" element={<BoulderGrades editBoulderFlash={editBoulderFlash} userInfo={userInfo} setUserInfo={setUserInfo} setNotification={setNotification}/>} />
         <Route path="/sport" element={<SportGrades editSportFlash={editSportFlash} userInfo={userInfo} setUserInfo={setUserInfo} setNotification={setNotification}/>} />
-        <Route path="/" element={<Home user={user} userInfo={userInfo} setUser={setUser} setUserInfo={setUserInfo} setNotification={setNotification}/>} />
+        <Route path="/activity" element={<Activities userInfo={userInfo} setUserInfo={setUserInfo}/>}/>
+        <Route path="/" element={<Home user={user} userInfo={userInfo} setUser={setUser} setUserInfo={setUserInfo} notification={notification} setNotification={setNotification}/>} />
       </Routes>
     </>
   )}

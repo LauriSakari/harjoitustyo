@@ -6,18 +6,11 @@ const User = require('../models/user')
 activitiesRouter.post('/', async (req, res) => {
   try {
     const body = req.body
-    console.log('body4 ', body)
-
     const user = await User.findById(body.user)
-
-    console.log('user111 ', user)
     
     const activity = new Activity({ ...body })
-    console.log('activity ', activity)
       
     const savedActivity = await activity.save()
-  
-    console.log('savedActivity ', savedActivity)
 
     user.activities = user.activities.concat(savedActivity._id)
     await user.save()
@@ -29,6 +22,17 @@ activitiesRouter.post('/', async (req, res) => {
     return res.status(400).json({
       error: error
     })
+  }
+})
+
+activitiesRouter.delete('/:id', async (req, res) => {
+  try {
+    await Activity.findByIdAndRemove(req.params.id)
+    return res.status(204).end()
+    
+  } catch (error) {
+    logger.error('error ', error )
+    return res.json(error.message)
   }
 })
 

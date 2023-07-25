@@ -8,7 +8,7 @@ usersRouter.get('/', (req, res) => {
     res.json(response)
   })
 })
-  
+
 usersRouter.get('/:id', (req, res) => {
   const id = req.params.id
   User.findById(id)
