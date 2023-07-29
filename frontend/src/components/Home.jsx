@@ -2,24 +2,14 @@ import LogInForm from './LogInForm'
 import SignInForm from './SignInForm'
 import Notification from './Notification'
 import Activity from './Activity'
-import activityFunctions from '../utils/activityFunctions'
+import ToDo from './ToDo'
 
-const Home = ({ user, userInfo, setUser, setUserInfo, notification, setNotification }) => {
+const Home = ({ user, userInfo, setUser, notification, setNotification, todoList, setTodoList, handleSubmitTodo, handleDeleteActivity }) => {
 
   const fiveLatestFirst = (array) => {
     const fiveLatestReversedOrder = array.slice(-5).reverse()
     return fiveLatestReversedOrder
   }
-
-  const handleNotificationChange = (message) => {
-    setNotification(message)
-  }
-
-  const handleDeleteActivity = (activityId, userId) => {
-    activityFunctions.deleteActivity(activityId, userId)
-    setUserInfo(activityFunctions.removeActivityFromUserInfo(userInfo, activityId))
-  }
-
 
   return (
     <>
@@ -28,8 +18,8 @@ const Home = ({ user, userInfo, setUser, setUserInfo, notification, setNotificat
       {!user && <>
         <p> Welcome! Please sign in or create an account </p>
         <Notification notification={notification}/>
-        <LogInForm setUser={setUser} handleNotificationChange={handleNotificationChange}/>
-        <SignInForm setUser={setUser} handleNotificationChange={handleNotificationChange}/>
+        <LogInForm setUser={setUser} setNotification={setNotification}/>
+        <SignInForm setUser={setUser} setNotification={setNotification}/>
       </>
       }
 
@@ -37,7 +27,7 @@ const Home = ({ user, userInfo, setUser, setUserInfo, notification, setNotificat
 <>
   <h2>Hello {userInfo.username}</h2>
 
-  <p>Latest activity:</p>
+  <h3>Latest activity:</h3>
 
   {fiveLatestFirst(userInfo.activities).map(activity => {
     return <li key={activity.id}>
@@ -45,6 +35,7 @@ const Home = ({ user, userInfo, setUser, setUserInfo, notification, setNotificat
     </li>
   })}
 
+  <ToDo todoList={todoList} setTodoList={setTodoList} handleSubmitTodo={handleSubmitTodo} setNotification={setNotification}/>
 </>
       }
     </>

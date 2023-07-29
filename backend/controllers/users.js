@@ -13,6 +13,7 @@ usersRouter.get('/:id', (req, res) => {
   const id = req.params.id
   User.findById(id)
     .populate('activities')
+    .populate('todos')
     .then(user => { 
       if (user) {
         res.json(user)
@@ -57,7 +58,7 @@ usersRouter.post('/', async (req, res) => {
 usersRouter.put('/:id', async (req, res) => {
   try {
     // eslint-disable-next-line no-unused-vars
-    const { id, activityId, activities, ...user } = req.body
+    const { id, activityId, activities, todos, ...user } = req.body
 
     const updatedUser = await User.findByIdAndUpdate(id, user, { new: true })
     res.json(updatedUser)

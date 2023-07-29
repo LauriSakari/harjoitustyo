@@ -18,10 +18,6 @@ const BoulderGrades = ({ editBoulderFlash, userInfo, setUserInfo, setNotificatio
     setNewBoulderFlash(event.target.value)
   }
 
-  const handleNotificationChange = (message) => {
-    setNotification(message)
-  }
-
   const routesToShow = (climbedRoutes) => {
     if (!showPlus) {
       return gradeFunctions.plusIgnored(climbedRoutes)
@@ -32,7 +28,7 @@ const BoulderGrades = ({ editBoulderFlash, userInfo, setUserInfo, setNotificatio
   return (
     <>
       <h1>Boulder Grades</h1>
-      <AddClimbsForm userInfo={userInfo} setUserInfo={setUserInfo} handleNotificationChange={handleNotificationChange} style={'boulder'}/>
+      <AddClimbsForm userInfo={userInfo} setUserInfo={setUserInfo} setNotification={setNotification} style={'boulder'}/>
       <h3>Your boulder flash grade is {userInfo.boulderFlashGrade}</h3>
       <FlashForm handleChange={handleBoulderFlashChange} editFlash={editFlash} text={'boulder'}/>
       {/* Shows all of the climbed grades. Plus grades can be toggled by pushing the button */}

@@ -1,5 +1,3 @@
-
-
 const ClimbsTable = ({ routesToShow, style }) => {
 
   return (

@@ -16,8 +16,6 @@ const newActivity = async ( routesClimbed, values, userId ) => {
 }
 
 const deleteActivity = async (activityId, userId) => {
-  console.log('REMOVEACTIVITY ', activityId)
-  console.log('REMOVEACTIVITYUSER ', userId)
   return await axios.delete(`${baseUrl}/${activityId}`, userId)
 }
 

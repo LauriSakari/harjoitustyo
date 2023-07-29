@@ -1,6 +1,7 @@
 
 import { useFormik } from 'formik'
 import signIn from '../services/signIn'
+import timeoutNotification from '../utils/timeoutNotification'
 import * as yup from 'yup'
 
 const signInSchema = yup.object().shape({
@@ -9,7 +10,7 @@ const signInSchema = yup.object().shape({
   password: yup.string().required('Password is required'),
 })
 
-const SignInForm = ({ setUser, handleNotificationChange }) => {
+const SignInForm = ({ setUser, setNotification }) => {
 
   const formik = useFormik({
     initialValues: {
@@ -27,14 +28,20 @@ const SignInForm = ({ setUser, handleNotificationChange }) => {
           window.localStorage.setItem(
             'loggedMoveBankUser', JSON.stringify(newUser)
           )
-          handleNotificationChange({ message: `Welcome ${newUser.username}`, type: 'success' })
-          setTimeout(() => {
-            handleNotificationChange({ message: null })
-          }, 4000)
+          timeoutNotification({
+            message: `Welcome ${newUser.username}`,
+            type: 'success' },
+          setNotification
+          )
+
         }
       } catch (error) {
         const errorMessage = error.response.data.error.message
-        handleNotificationChange({ message: errorMessage, type: 'error' })
+        timeoutNotification({
+          message:  errorMessage,
+          type: 'error' },
+        setNotification
+        )
       }
 
     },
@@ -85,7 +92,6 @@ const SignInForm = ({ setUser, handleNotificationChange }) => {
       </form>
     </>
   )
-
 }
 
 export default SignInForm

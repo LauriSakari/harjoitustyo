@@ -18,10 +18,6 @@ const SportGrades = ({ editSportFlash, userInfo, setUserInfo, setNotification })
     setNewSportFlash(event.target.value)
   }
 
-  const handleNotificationChange = (message) => {
-    setNotification(message)
-  }
-
   const routesToShow = (climbedRoutes) => {
     if (!showPlus) {
       return gradeFunctions.plusIgnored(climbedRoutes)
@@ -32,7 +28,7 @@ const SportGrades = ({ editSportFlash, userInfo, setUserInfo, setNotification })
   return (
     <>
       <h1>Sport Grades</h1>
-      <AddClimbsForm userInfo={userInfo} setUserInfo={setUserInfo} handleNotificationChange={handleNotificationChange} style={'sport'}/>
+      <AddClimbsForm userInfo={userInfo} setUserInfo={setUserInfo} setNotification={setNotification} style={'sport'}/>
       <h3>Your sport flash grade is {userInfo.sportFlashGrade}</h3>
       <FlashForm handleChange={handleSportFlashChange} editFlash={editFlash} text={'sport'}/>
       {/* Shows all of the climbed grades. Plus grades can be toggled by pushing the button */}

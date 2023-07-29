@@ -1,5 +1,3 @@
-
-
 const Feedback = ({ routes, flashGrade, style }) => {
   if (!routes || routes.length === 0) return <div>No sends yet</div>
 

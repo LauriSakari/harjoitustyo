@@ -15,7 +15,6 @@ const sortByGrade = (routes) => {
     return []
   }
   const sortedByGrade = routes.sort((a, b) => (a.grade > b.grade) ? 1 : -1)
-  console.log('SORTEDBYGRADE', sortedByGrade)
   return sortedByGrade
 }
 

@@ -22,7 +22,13 @@ const userSchema = new mongoose.Schema({
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Activity'
-    }
+    },
+  ],
+  todos: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Todo'
+    },
   ]
 })
 

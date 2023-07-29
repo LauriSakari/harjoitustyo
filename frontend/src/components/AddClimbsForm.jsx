@@ -4,11 +4,12 @@ import gradesHelper from '../utils/gradesHelper'
 import { useState } from 'react'
 import activityService from '../services/activity'
 import gradeFunctions from '../utils/gradeFunctions'
+import timeoutNotification from '../utils/timeoutNotification'
 import * as yup from 'yup'
 
 const addClimbsSchema = yup.object().shape({
   date: yup.date().required('Date is required'),
-  notes: yup.string().required('Notes are required'),
+  notes: yup.string().required('Notes are required')
 })
 
 
@@ -21,12 +22,10 @@ const newRoutesSum = (collectedRoutes) => {
 }
 
 
-const AddClimbsForm = ({ userInfo, setUserInfo, handleNotificationChange, style }) => {
+const AddClimbsForm = ({ userInfo, setUserInfo, setNotification, style }) => {
 
   const [collectedRoutes, setCollectedRoutes] = useState([])
   const [id, setId] = useState(1)
-
-  console.log('collectedRoutes', collectedRoutes)
 
   const handleRemoveButton = (id) => {
     setCollectedRoutes(collectedRoutes.filter(route => route.id !== id))
@@ -36,7 +35,7 @@ const AddClimbsForm = ({ userInfo, setUserInfo, handleNotificationChange, style 
     initialValues: {
       grade: '6A',
       style: style,
-      routesClimbed: '',
+      routesClimbed: 1,
       date: '',
       notes: ''
     },
@@ -51,16 +50,17 @@ const AddClimbsForm = ({ userInfo, setUserInfo, handleNotificationChange, style 
 
         await userService.editClimbedRoutes(updatedUserinfo, activityId)
         setUserInfo(updatedUserinfo)
-        handleNotificationChange({ message: `Added ${newRoutesSum(collectedRoutes)} routes to your climbed routes`, type: 'success' })
+        timeoutNotification({
+          message: `Added ${newRoutesSum(collectedRoutes)} routes to your climbed routes`,
+          type: 'success' },
+        setNotification )
         setCollectedRoutes([])
-        setTimeout(() => {
-          handleNotificationChange({ message: null })
-        }, 4000)
+
       } catch (error) {
-        handleNotificationChange({ message: `Failed to add routes ${error.message}`, type: 'error' })
-        setTimeout(() => {
-          handleNotificationChange({ message: null })
-        }, 4000)
+        timeoutNotification({
+          message: `Failed to add routes ${error.message}`,
+          type: 'error' },
+        setNotification)
       }
     }
   })
@@ -83,10 +83,10 @@ const AddClimbsForm = ({ userInfo, setUserInfo, handleNotificationChange, style 
 
   return (
     <>
+      <h3>Add Climbs:</h3>
       <form onSubmit={formik.handleSubmit}>
-        <div>Add Climbs:</div>
         {collectedRoutes.map(addedRoutes => <li key={addedRoutes.id}> Grade: {addedRoutes.grade} Routes climbed: {addedRoutes.routesClimbed}<button type='button' onClick={() => handleRemoveButton(addedRoutes.id)}>Remove</button></li> )}
-        <label>Grade:</label>
+        <label htmlFor='grade'>Grade:</label>
         <select
           id='grade'
           name='grade'
@@ -96,16 +96,17 @@ const AddClimbsForm = ({ userInfo, setUserInfo, handleNotificationChange, style 
           {gradesHelper.map(element => <option key={element.grade}> {element.grade} </option>)}
         </select>
 
-        <label>Routes climbed:</label>
+        <label htmlFor='routesClimbed'>Routes climbed:</label>
         <input
           id='routesClimbed'
           name='routesClimbed'
           type='number'
+          min={1}
           onChange={formik.handleChange}
           value={formik.values.routesClimbed}/>
         <button type="button" onClick={handleAddButton}>Add</button>
         <br/>
-        <label>Date:</label>
+        <label htmlFor='date'>Date:</label>
         <input
           id='date'
           name='date'
@@ -113,7 +114,7 @@ const AddClimbsForm = ({ userInfo, setUserInfo, handleNotificationChange, style 
           onChange={formik.handleChange}
           value={formik.values.date}/>
         {formik.touched.date && formik.errors.date ? (<div className='signin-error' >{formik.errors.date}</div>) : null}
-        <label>Notes:</label>
+        <label htmlFor='notes'>Notes:</label>
         <input
           id='notes'
           name='notes'

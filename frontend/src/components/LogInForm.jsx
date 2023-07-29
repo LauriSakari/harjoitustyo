@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import login from '../services/login'
+import timeoutNotification from '../utils/timeoutNotification'
 
-const LogInForm = ({ setUser, handleNotificationChange }) => {
+const LogInForm = ({ setUser, setNotification }) => {
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -23,14 +24,20 @@ const LogInForm = ({ setUser, handleNotificationChange }) => {
       window.localStorage.setItem(
         'loggedMoveBankUser', JSON.stringify(user)
       )
-      handleNotificationChange({ message: `Welcome ${user.username}! You have logged in succesfully`, type: 'success' })
-      setTimeout(() => {
-        handleNotificationChange({ message: null })
-      }, 3000)
-    } catch (error) {
-      handleNotificationChange({ message: 'Incorrect username or password', type: 'error' })
-    }
+      timeoutNotification({
+        message: `Welcome ${user.username}! You have logged in succesfully`,
+        type: 'success' },
+      setNotification
+      )
 
+    } catch (error) {
+      console.log('error', error )
+      timeoutNotification({
+        message: `Incorrect username or password ${error.message}`,
+        type: 'error' },
+      setNotification
+      )
+    }
   }
 
   return (

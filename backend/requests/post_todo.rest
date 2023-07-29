@@ -1,0 +1,8 @@
+POST http://localhost:3001/api/todos
+Content-Type: application/json
+
+{
+  "content": "Stinger 6c+, Jaanankallio",
+  "completed": false,
+  "user": "64bc2c5fcf4c2459a78c1c40"
+}

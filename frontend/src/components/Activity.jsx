@@ -3,11 +3,11 @@ import { useState } from 'react'
 const Activity = (props) => {
   const [showMore, setShowMore] = useState(false)
   const activity = props.activity
-  console.log('activity', activity)
 
   const handleRemoveActivity = (activityId, userId, routesToRemove) => {
-    console.log('handleRemoveActivity', activityId, userId, routesToRemove)
-    props.handleDeleteActivity(activityId, userId, routesToRemove)
+    if (window.confirm('Are you sure you want to remove this activity')) {
+      props.handleDeleteActivity(activityId, userId, routesToRemove)
+    }
   }
 
   let style = ''
@@ -20,8 +20,8 @@ const Activity = (props) => {
 
   return (
     <>
-    Date: { new Date(activity.date).toLocaleDateString() }
-    Climbed routes: { sum } { style } {sum > 1 ? 'routes climbed' : 'route climbed'}
+    Date: { new Date(activity.date).toLocaleDateString()}
+      {' '} { sum } { style } {sum > 1 ? 'routes climbed' : 'route climbed'}
       {showMore &&
       <>
         {activity.routesClimbed.map(grade => {
