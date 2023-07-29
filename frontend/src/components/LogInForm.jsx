@@ -31,7 +31,6 @@ const LogInForm = ({ setUser, setNotification }) => {
       )
 
     } catch (error) {
-      console.log('error', error )
       timeoutNotification({
         message: `Incorrect username or password ${error.message}`,
         type: 'error' },

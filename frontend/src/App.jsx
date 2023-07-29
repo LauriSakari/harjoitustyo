@@ -67,7 +67,7 @@ const App = () => {
     window.localStorage.removeItem('loggedMoveBankUser')
     setUser('')
     navigate('/')
-    timeoutNotification({ message: 'You have successfully logged out', type: 'success', time: 4000, setNotification })
+    timeoutNotification({ message: 'You have successfully logged out', type: 'success' }, setNotification )
   }
 
   const handleSubmitTodo = async (content) => {
