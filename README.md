@@ -3,7 +3,7 @@ Harjoitustyö full stack open kurssille
 
 Linkki harjoitustyöhön [https://climbing-move-bank.fly.dev/]
 
-[Linkki tuntikirjanpitoon](https://raw.githubusercontent.com/LauriSakari/harjoitustyo/main/tuntikirjantpito.md)
+[Linkki tuntikirjanpitoon](https://raw.githubusercontent.com/LauriSakari/harjoitustyo/main/tuntikirjantpito.md?token=GHSAT0AAAAAACFHTBFDZLRNJ4QLSNFKOQBSZGGXTBA)
 
 Sovelluksesta:
 Sivu on tarkoitettu omien kiivettyjen reittien vaikeusasteiden määrälliseen seuraamiseen
