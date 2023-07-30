@@ -1,5 +1,6 @@
 
 import { useFormik } from 'formik'
+import { useNavigate } from 'react-router-dom'
 import signIn from '../services/signIn'
 import timeoutNotification from '../utils/timeoutNotification'
 import * as yup from 'yup'
@@ -11,6 +12,8 @@ const signInSchema = yup.object().shape({
 })
 
 const SignInForm = ({ setUser, setNotification }) => {
+
+  const navigate = useNavigate()
 
   const formik = useFormik({
     initialValues: {
@@ -28,6 +31,7 @@ const SignInForm = ({ setUser, setNotification }) => {
           window.localStorage.setItem(
             'loggedMoveBankUser', JSON.stringify(newUser)
           )
+          navigate('/')
           timeoutNotification({
             message: `Welcome ${newUser.username}`,
             type: 'success' },
