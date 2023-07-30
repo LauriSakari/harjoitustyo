@@ -3,7 +3,7 @@ Harjoitustyö full stack open kurssille
 
 Linkki harjoitustyöhön [https://climbing-move-bank.fly.dev/]
 
-Linkki tuntikirjanpitoon [tuntikirjanpito](tuntikirjanpito.md)
+Tuntikirjanpito:
 
 Sovelluksesta:
 Sivu on tarkoitettu omien kiivettyjen reittien vaikeusasteiden määrälliseen seuraamiseen
