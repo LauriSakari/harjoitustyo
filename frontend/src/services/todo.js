@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseUrl = 'http://localhost:3001/api/todos'
+const baseUrl = '/api/todos'
 
 const newTodo = async ( content, user ) => {
   const newTodo = {

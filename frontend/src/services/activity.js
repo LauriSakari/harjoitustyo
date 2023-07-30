@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseUrl = 'http://localhost:3001/api/activities'
+const baseUrl = '/api/activities'
 
 
 const newActivity = async ( routesClimbed, values, userId ) => {

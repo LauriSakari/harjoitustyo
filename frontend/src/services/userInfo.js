@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseUrl = 'http://localhost:3001/api/users'
+const baseUrl = '/api/users'
 
 const getUserInfo = async (id) => {
   return await axios.get(`${baseUrl}/${id}`)
@@ -11,10 +11,8 @@ const editFlashGrade = async (changedUserInfo) => {
 }
 
 const editClimbedRoutes = async (changedUserInfo, activityId) => {
-  console.log('changedUserInfo', changedUserInfo)
   const id = changedUserInfo.id
   const userInfo = { ...changedUserInfo, activityId: activityId }
-  console.log('userInfo', userInfo)
   const result = await axios.put(`${baseUrl}/${id}`, userInfo)
   return result.data
 }
