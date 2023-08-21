@@ -103,9 +103,8 @@ input {
     border-radius: 3px;
     padding: 10px;
     margin-bottom: 10px;
-    position: fixed;
+    position: sticky;
     top: 10px;
-    left: 10px;
   }
   .success {
     color: #270;

@@ -8,8 +8,7 @@ import timeoutNotification from '../utils/timeoutNotification'
 import * as yup from 'yup'
 
 const addClimbsSchema = yup.object().shape({
-  date: yup.date().required('Date is required'),
-  notes: yup.string().required('Notes are required')
+  date: yup.date().required('Date is required')
 })
 
 

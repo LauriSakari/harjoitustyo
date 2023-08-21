@@ -60,7 +60,7 @@ usersRouter.put('/:id', async (req, res) => {
     // eslint-disable-next-line no-unused-vars
     const { id, activityId, activities, todos, ...user } = req.body
 
-    const updatedUser = await User.findByIdAndUpdate(id, user, { new: true })
+    const updatedUser = await User.findByIdAndUpdate(id, user, { new: true }).populate('activities')
     res.json(updatedUser)
   } catch (error) {
     logger.error(error)

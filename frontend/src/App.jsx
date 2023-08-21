@@ -63,7 +63,6 @@ const App = () => {
   }
 
   const handleLogout = () => {
-    console.log('logging out')
     window.localStorage.removeItem('loggedMoveBankUser')
     setUser('')
     navigate('/')
