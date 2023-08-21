@@ -3,8 +3,6 @@ Harjoitustyö full stack open kurssille
 
 Linkki harjoitustyöhön [https://climbing-move-bank.fly.dev/]
 
-[Linkki tuntikirjanpitoon](tuntikirjantpito.md)
-
 Sovelluksesta:
 Sivu on tarkoitettu omien kiivettyjen reittien vaikeusasteiden määrälliseen seuraamiseen
 jolloin käyttäjä voi nähdä paljonko ns. "moovipankkiin" on kertynyt katetta.
@@ -20,13 +18,13 @@ Luo tunnukset tai kirjaudu sisään aloitusnäkymässä.
 Kirjautumisen jälkeen etusivulla näkyy 5 viimeisimpänä lisättyä kiipeykertaa ja sen alla todo lista.
 Kiipeilykerroista saa lisätietoa ja poistomahdollisuuden näkyviin painalla nappia ja Todo listaan voi 
 lisätä tehtäviä kirjoittamalla input kenttään ja niitä voi merkitä tehdyksi tai tekemättömäksi 
-checkboksista ja poistaa delete-napista.
+checkboxista ja poistaa delete-napista.
 
 Boulder ja Sport välilehdet ovat keskenään samanlaiset sivut näille kahdelle eri tyylisuuntaukselle.
 Yläosassa on lomake jolla lähettää tiedot kiivetyistä reiteistä. 
-Valikosta valitaan greidi ja merkitään kiivettyjen reittien lukumäärä. Lisätään tieto kyseiselle 
+Valikosta valitaan greidi ja merkitään kiivettyjen reittien lukumäärä ja lisätään tieto kyseiselle 
 kiipeilykerralle painamalla add painiketta.
-Kun kaikki kiivetyt reitit on vaikeusastekohtaisesti lisätty, valitaan valitaan päivämäärä ja 
+Kun kaikki kiivetyt reitit on vaikeusastekohtaisesti lisätty, valitaan päivämäärä ja 
 lisätään muistiinpanot ja lähetetään tiedot submit-painikkeella.
 Seuraavalla lomakkeella päivitetään käyttäjän flash grade joka on siis vaikeusaste jonka tyypillisesti pääsee aina ensimmäisellä yrittämällä.
 Palaute kiipeilyreiteistä annetaan vain sitä vaikeammista reiteistä.
