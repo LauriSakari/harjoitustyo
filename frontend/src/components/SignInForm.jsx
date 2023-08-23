@@ -54,7 +54,7 @@ const SignInForm = ({ setUser, setNotification }) => {
 
   return (
     <>
-      <p>Please sign in:</p>
+      <p>Create account:</p>
       <form onSubmit={formik.handleSubmit}>
         <div className='label-input'>
           <label>Name:</label>
@@ -62,6 +62,7 @@ const SignInForm = ({ setUser, setNotification }) => {
             id="name"
             name="name"
             type="name"
+            data-testid="createAccountNameInput"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.name}
@@ -74,6 +75,7 @@ const SignInForm = ({ setUser, setNotification }) => {
             id="username"
             name="username"
             type="username"
+            data-testid="createAccountUsernameInput"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.username}
@@ -86,13 +88,14 @@ const SignInForm = ({ setUser, setNotification }) => {
             id="password"
             name="password"
             type="password"
+            data-testid="createAccountPasswordInput"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.password}
           />
         </div>
         {formik.touched.password && formik.errors.password ? (<div className='signin-error'>{formik.errors.password}</div>) : null}
-        <button type="submit">Submit</button>
+        <button type="submit" data-testid='createAccountButton'>Create account</button>
       </form>
     </>
   )

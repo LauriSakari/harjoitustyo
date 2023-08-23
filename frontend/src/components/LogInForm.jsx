@@ -42,12 +42,12 @@ const LogInForm = ({ setUser, setNotification }) => {
   return (
     <form onSubmit={handleLogin}>
       <div> Username:
-        <input type='text' value={username} onChange={handleUsernameChange}/>
+        <input data-testid='loginUsernameInput' type='text' value={username} onChange={handleUsernameChange}/>
       </div>
       <div> Password:
-        <input type='password' value={password} onChange={handlePasswordChange}/>
+        <input data-testid='loginPasswordInput' type='password' value={password} onChange={handlePasswordChange}/>
       </div>
-      <button type='submit'>Submit</button>
+      <button type='submit'>Log in</button>
     </form>
 
   )

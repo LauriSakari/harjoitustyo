@@ -7,6 +7,10 @@ const usersRouter = require('./controllers/users')
 const loginRouter = require('./controllers/login')
 const activitiesRouter = require('./controllers/activities')
 const todosRouter = require('./controllers/todos')
+if (process.env.NODE_ENV === 'test') {
+  const testingRouter = require('./controllers/testing')
+  app.use('/api/testing', testingRouter)
+}
 const logger = require('./utils/logger')
 const morgan = require('morgan')
 const mongoose = require('mongoose')
