@@ -57,8 +57,8 @@ const ToDo = ({ todoList, setTodoList, handleSubmitTodo, setNotification }) => {
       <form onSubmit={submit}>
         <div>
           <label htmlFor='item'>ToDo list</label>
-          <input type='text' id='item' value={item} onChange={handleChange}></input>
-          <button id='addButton' type='submit'>Add</button>
+          <input type='text' id='item' data-testid="addTodoInput" value={item} onChange={handleChange}></input>
+          <button id='addButton' type='submit' data-testid="addTodoButton">Add</button>
         </div>
       </form>
 

@@ -47,5 +47,24 @@ describe('climbing move bank', function() {
     cy.get('[data-testid="createAccountPasswordInput"]').type('salainen')
     cy.get('[data-testid="createAccountButton').click()
     cy.get('.error').contains('unique')
+      .and('have.css', 'color', 'rgb(216, 0, 12)')
+    cy.contains('Home').should('not.exist')
   })
+
+
+  describe('when logged in', function() {
+    beforeEach(function() {
+      cy.get('[data-testid="loginUsernameInput"]').type('root')
+      cy.get('[data-testid="loginPasswordInput"]').type('sekret')
+      cy.contains('Log in').click()
+    })
+
+    it('a new todo can be created', function() {
+      cy.get('[data-testid="addTodoInput"]').type('test todo')
+      cy.get('[data-testid="addTodoButton"]').click()
+      cy.get('[data-testid="addTodoInput"]').should('have.value', '')
+      cy.contains('test todo')
+    })
+  })
+
 })
