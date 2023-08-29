@@ -8,8 +8,21 @@ const ToDo = ({ todoList, setTodoList, handleSubmitTodo, setNotification }) => {
 
   const submit = (event) => {
     event.preventDefault()
+    if (item === '') {
+      timeoutNotification({
+        message: 'Todo field can not be empty',
+        type: 'error' },
+      setNotification
+      )
+      return
+    }
     handleSubmitTodo(event.target.item.value)
     setItem('')
+    timeoutNotification({
+      message: 'Item was added succesfully',
+      type: 'success' },
+    setNotification
+    )
   }
 
   const handleChange = (event) => {
@@ -68,7 +81,7 @@ const ToDo = ({ todoList, setTodoList, handleSubmitTodo, setNotification }) => {
             <label>
               <input type='checkbox' checked={todo.completed} onChange={event => toggleTodo(todo.id, event.target.checked)}/>
               {todo.content}
-              <button onClick={() => handleDelete(todo.id)}>Delete</button>
+              <button data-testid="deleteTodoButton" onClick={() => handleDelete(todo.id)}>Delete</button>
             </label>
           </li>
         })}

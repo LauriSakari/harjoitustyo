@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import {
-  Routes, Route, Link, useNavigate
+  Routes, Route, useNavigate
 } from 'react-router-dom'
+import Navbar from './components/Navbar'
 import BoulderGrades from './components/BoulderGrades'
 import userInfoService from './services/userInfo'
 import SportGrades from './components/SportGrades'
@@ -89,14 +90,7 @@ const App = () => {
 
   return (
     <>
-      <div className='navbar'>
-        <Link to="/">Home</Link>
-        <Link to="/boulder">Boulder</Link>
-        <Link to="/sport">Sport</Link>
-        <Link to="/activity">Activity</Link>
-        <button className='logout-button' onClick={handleLogout}>Logout</button>
-      </div>
-
+      <Navbar handleLogout={handleLogout}/>
       <Notification notification={notification}/>
 
       <Routes>

@@ -64,6 +64,38 @@ describe('climbing move bank', function() {
       cy.get('[data-testid="addTodoButton"]').click()
       cy.get('[data-testid="addTodoInput"]').should('have.value', '')
       cy.contains('test todo')
+      cy.wait(1000)
+      cy.get('.success').should('exist')
+    })
+
+    it('empty todo can not be created', function() {
+      cy.wait(500)
+      cy.get('[data-testid="addTodoButton"]').click()
+      cy.wait(500)
+      cy.contains('Delete').should('not.exist')
+      cy.wait(1000)
+      cy.get('.error').should('exist')
+    })
+
+    it('added todo can be deleted', function() {
+      cy.get('[data-testid="addTodoInput"]').type('test todo')
+      cy.get('[data-testid="addTodoButton"]').click()
+      cy.get('[data-testid="addTodoInput"]').should('have.value', '')
+      cy.contains('test todo')
+      cy.get('[data-testid="deleteTodoButton"]').click()
+      cy.wait(500)
+      cy.contains('test todo').should('not.exist')
+    })
+
+    it('navbar links work', function() {
+      cy.get('[data-testid="boulderLink"]').click()
+      cy.contains('Boulder Grades')
+      cy.get('[data-testid="sportLink"]').click()
+      cy.contains('Sport Grades')
+      cy.get('[data-testid="activityLink"]').click()
+      cy.contains('Your Activity')
+      cy.get('[data-testid="homeLink"]').click()
+      cy.contains('Hello root')
     })
   })
 
