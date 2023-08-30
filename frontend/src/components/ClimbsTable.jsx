@@ -1,7 +1,7 @@
 const ClimbsTable = ({ routesToShow, style }) => {
 
   return (
-    <table>
+    <table data-testid='climbsTable'>
       <thead>
         <tr>
           <th>Grade</th>

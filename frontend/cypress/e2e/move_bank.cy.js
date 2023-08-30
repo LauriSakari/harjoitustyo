@@ -97,6 +97,28 @@ describe('climbing move bank', function() {
       cy.get('[data-testid="homeLink"]').click()
       cy.contains('Hello root')
     })
+
+    it('user can log out', function() {
+      cy.get('[data-testid="logoutButton"]').click()
+      cy.get('[data-testid="loginUsernameInput"]').should('exist')
+      cy.get('.success').should('exist')
+        .and('contain', 'logged out')
+    })
+
+    it('user can add boulder climbs with form', function() {
+      cy.get('[data-testid="boulderLink"]').click()
+      cy.contains('No sends yet')
+      cy.get('#grade').select('6B')
+      cy.get('#routesClimbed').clear()
+      cy.get('#routesClimbed').type(2)
+      cy.get('[data-testid="addRoutesButton"]').click()
+      cy.get('#date').click()
+      cy.get('#date').type('2023-10-10')
+      cy.get('#notes').type('muistiinpano')
+      cy.get('[data-testid="submitRoutesButton"]').click()
+      cy.get('[data-testid="climbsTable"]').should('contain', '6B')
+        .and('contain', '2')
+    })
   })
 
 })

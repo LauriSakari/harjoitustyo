@@ -2,14 +2,14 @@ import {
   Link
 } from 'react-router-dom'
 
-const Navbar = (handleLogout) => {
+const Navbar = ({ handleLogout }) => {
   return (
     <div className='navbar'>
       <Link to="/" data-testid='homeLink'>Home</Link>
       <Link to="/boulder" data-testid='boulderLink'>Boulder</Link>
       <Link to="/sport" data-testid='sportLink'>Sport</Link>
       <Link to="/activity" data-testid='activityLink'>Activity</Link>
-      <button className='logout-button' onClick={handleLogout}>Logout</button>
+      <button className='logout-button' data-testid='logoutButton' onClick={handleLogout}>Logout</button>
     </div>
   )}
 

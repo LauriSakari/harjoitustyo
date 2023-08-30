@@ -103,7 +103,7 @@ const AddClimbsForm = ({ userInfo, setUserInfo, setNotification, style }) => {
           min={1}
           onChange={formik.handleChange}
           value={formik.values.routesClimbed}/>
-        <button type="button" onClick={handleAddButton}>Add</button>
+        <button type="button" data-testid='addRoutesButton' onClick={handleAddButton}>Add</button>
         <br/>
         <label htmlFor='date'>Date:</label>
         <input
@@ -120,7 +120,7 @@ const AddClimbsForm = ({ userInfo, setUserInfo, setNotification, style }) => {
           type='text'
           onChange={formik.handleChange}
           value={formik.values.notes}/>
-        <button type="submit" disabled={collectedRoutes.length === 0}>Submit</button>
+        <button type="submit" data-testid='submitRoutesButton' disabled={collectedRoutes.length === 0}>Submit</button>
       </form>
     </>
   )
